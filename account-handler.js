@@ -1,6 +1,6 @@
 let accountList = [];
 const {findProcess,stopProcess,startProcess} = require('./process-handler')
-const {removeParsecUserFile,createAccount,checkNickname} = require('./account-data')
+const {removeParsecUserFile,createAccount,checkNickname,removeAccount} = require('./account-data')
 const sleep = require('sync-sleep')
 class ProcessException extends Error{
     constructor(message) {
@@ -9,9 +9,14 @@ class ProcessException extends Error{
     }
 }
 
+
+//Maybe all try catch in the main function?
 async function addAccount(nickname){
     try {
         let checkNameExists = checkNickname(nickname)
+        if (checkNameExists){
+            throw new Error("nickname already exists")
+        }
         console.log("Adding account..")
         //check if parsec is running
         const output = await findProcess('parsecd')
@@ -56,15 +61,12 @@ async function addAccount(nickname){
 
 
 
-function deleteAccount(nickname){
-    let listWithoutNickname = [];
-    for(let i = 0; i < accountList.length; i++){
-        if(accountList[i] !== nickname){
-            listWithoutNickname.push(accountList[i])
-        }
+function deleteAccount(nickname) {
+    let exits = checkNickname(nickname)
+    if(!exits){
+        throw new Error("nickname does not exists")
     }
-    accountList = listWithoutNickname;
-    console.log(accountList)
+    removeAccount(nickname)
 }
 
 function switchAccount(nickname){
@@ -79,7 +81,16 @@ function returnAccountList(){
 
 
 //addAccount('mute')
+/*
+try {
+    deleteAccount('hamnah')
 
+}
+catch (error){
+    console.log(error.message)
+}
+
+ */
 module.exports = {
     addAccount,
     deleteAccount,
