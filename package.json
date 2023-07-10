@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "child_process": "^1.0.2",
     "docopt": "^0.6.2",
-    "mongodb": "^5.6.0"
+    "mongodb": "^5.6.0",
+    "sync-sleep": "^1.0.0"
   }
 }
