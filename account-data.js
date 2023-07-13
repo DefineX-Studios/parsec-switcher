@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const rimraf = require('rimraf')
+const zlib = require("zlib");
 
 
 const parsecUser = "C:\\Users\\shamu\\AppData\\Roaming\\Parsec\\user.bin"
@@ -17,11 +18,12 @@ function openAndFindNickname(nickname){
         exist = 1
     }
     return exist
-    return parsedData
 }
 function checkNickname(nickname){
     if(!fs.existsSync(accountData)){
-        return
+        let jsonData = {}
+        fs.writeFileSync(accountData,JSON.stringify(jsonData,null,2));
+        return 0
     }
     return openAndFindNickname(nickname)
 
@@ -44,8 +46,8 @@ function createAccount(nickname){
         fs.writeFileSync(accountData,JSON.stringify(jsonData,null,2));
 
     }
-    //const jsonData = fs.readFileSync(accountData,'utf8');
-    let parsedData = openAndFindNickname(nickname) //Redundant, this check is already made in accounthandler add account.
+    const jsonData = fs.readFileSync(accountData,'utf8');
+    let parsedData = JSON.parse(jsonData) //Redundant, this check is already made in accounthandler add account.
     /*
     if(`${nickname}` in parsedData){
         throw new Error("Nickname already exists")
@@ -79,6 +81,15 @@ function removeAccount(nickname){
 
 
 }
+function switchAccountData(nickname){
+    let jsonFile = fs.readFileSync(accountData,'utf8')
+    let parsedData = JSON.parse(jsonFile);
+
+    let userData = parsedData[nickname]
+    rimraf.sync(parsecUser)
+    fs.copyFileSync(userData,parsecUser)
+
+}
 /*
 try {
     createAccount('shamuwel')
@@ -94,5 +105,6 @@ module.exports={
     removeParsecUserFile,
     createAccount,
     checkNickname,
-    removeAccount
+    removeAccount,
+    switchAccountData
 }

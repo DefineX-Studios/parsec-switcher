@@ -1,6 +1,6 @@
 let accountList = [];
 const {findProcess,stopProcess,startProcess} = require('./process-handler')
-const {removeParsecUserFile,createAccount,checkNickname,removeAccount} = require('./account-data')
+const {removeParsecUserFile,createAccount,checkNickname,removeAccount,switchAccountData} = require('./account-data')
 const sleep = require('sync-sleep')
 class ProcessException extends Error{
     constructor(message) {
@@ -26,6 +26,8 @@ async function addAccount(nickname){
                 throw new Error(stop.message)
             }
         }
+
+        //Find some nodejs library to do this (p-wait-for).
         while(true){
 
             const findAgain = await findProcess('parsecd')
@@ -69,7 +71,33 @@ function deleteAccount(nickname) {
     removeAccount(nickname)
 }
 
-function switchAccount(nickname){
+async function switchAccount(nickname){
+    if(!checkNickname(nickname)){
+        throw new Error("Nickname doesn't exists")
+    }
+    let parsecOn =  await findProcess('parsecd')
+    if(parsecOn.success){
+        let stop = await stopProcess()
+        if(!stop.success){
+            throw new Error(stop.message)
+        }
+
+    }
+    while(true){
+
+        const findAgain = await findProcess('parsecd')
+        if (findAgain.success){
+            sleep.sleep(1000,()=>{})
+
+
+        }
+        else {
+            break
+        }
+
+    }
+    switchAccountData(nickname)
+
 
 }
 
@@ -80,7 +108,8 @@ function returnAccountList(){
 }
 
 
-//addAccount('mute')
+addAccount('foil')
+//switchAccount('mole')
 /*
 try {
     deleteAccount('hamnah')
