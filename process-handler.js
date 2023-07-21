@@ -1,4 +1,7 @@
 const {exec,execFile} = require('child_process');
+const path = require("path");
+const os = require("os");
+const fs = require('fs')
 //lots of code repetition, will need to rewrite.
 function stopProcess(){
 
@@ -26,7 +29,8 @@ function stopProcess(){
  */
     let stopOutput = {}
     return new Promise((resolve)=>{
-        exec('stop_process.bat',(error,stdout,stderr)=>{
+        console.log("inside stop")
+        exec('tools\\stop_process.bat',(error,stdout,stderr)=>{
             if(error){
                 stopOutput.success = 0;
                 stopOutput.message = error;
@@ -47,15 +51,20 @@ function stopProcess(){
 }
 
 function startProcess(){
-    console.log("Inside stop")
-    let batAndLocation = 'start_process.bat "C:\\Program Files\\Parsec\\parsecd.exe"'  //Include this in config later
-    //let batAndLocation = 'C:\\Program Files\\Parsec\\parsecd.exe'
+    console.log("Inside start")
+    //let batAndLocation = 'tools\\start_process.bat "C:\\Program Files\\Parsec\\parsecd.exe"'  //Include this in config later
+    const appDataPath = path.join(os.homedir(), 'AppData', 'Roaming', 'parsec-switcher');
+    let configFilePath = path.join(appDataPath,'config.json')
+    let file = fs.readFileSync(configFilePath,'utf-8')
+    let configFile = JSON.parse(file)
+    console.log("Trying to open JSON")
+    let batAndLocation = configFile['parsecdLocation']
 
     const options = {
         detached: true
     };
     return new Promise((resolve)=>{
-        exec(batAndLocation, (error,stdout,stderr)=>{
+        execFile(batAndLocation, (error,stdout,stderr)=>{
             let startOutput = {}
             //console.log("Inside the exec of start")
             //console.log(`error : ${error}, stdout : ${stdout}, stderr : ${stderr}`)
@@ -85,7 +94,8 @@ function startProcess(){
 }
 
 function findProcess(process){
-    let batAndLocation = `./find_process.ps1 ${process}`;
+    console.log("inside find")
+    let batAndLocation = `./tools/find_process.ps1 ${process}`;
     /*
     let commandOutput = {};
     //let batAndLocation = `get-process parsecd`;
@@ -114,8 +124,8 @@ function findProcess(process){
     //console.log(batAndLocation)
     let commandOutput = {}
     return new Promise((resolve)=>{
-        exec(batAndLocation,{'shell': 'powershell.exe'},(error,stdout,stderr)=>{
-
+        execFile(batAndLocation,{'shell': 'powershell.exe'},(error,stdout,stderr)=>{
+            console.log("Inside exec find")
             //console.log("In find process exec")
             //console.log(`error : ${error}, stdout : ${stdout}, stderr : ${stderr}`)
 
@@ -143,14 +153,23 @@ function findProcess(process){
 
 //findProcess('parsec')
 /*
-async ()=>{
-    let output = await
-}
+async function main(){
+    try {
+        let output = await findProcess('parsecd')
+        console.log(output.success)
+    }
+    catch (error){
+        console.log(error.message)
+    }
 
-})
+}
+main()
+
+
 
  */
-//startProcess().then()
+
+
 module.exports = {
     startProcess,
     stopProcess,

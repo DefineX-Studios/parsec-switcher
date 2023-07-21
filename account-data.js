@@ -2,11 +2,18 @@ const fs = require('fs')
 const path = require('path')
 const rimraf = require('rimraf')
 const zlib = require("zlib");
+const os = require("os");
 
+const userFiles = path.join(os.homedir(),'AppData','Roaming')
 
-const parsecUser = "C:\\Users\\shamu\\AppData\\Roaming\\Parsec\\user.bin"
-const accountData = 'account_data.JSON'
-const multiUserFolder = "C:\\Users\\shamu\\AppData\\Roaming\\Parsec\\UserList"
+const appDataPath = path.join(os.homedir(), 'AppData', 'Roaming', 'parsec-switcher');
+
+const parsecUser = path.join(userFiles,'Parsec','user.bin')
+const accountData = path.join(appDataPath,'account_data.json')
+
+//const multiUserFolder = "C:\\Users\\shamu\\AppData\\Roaming\\Parsec\\UserList"
+const multiUserFolder = path.join(userFiles,'Parsec','UserList')
+
 
 //need some rewriting.
 function openAndFindNickname(nickname){
@@ -74,10 +81,13 @@ function removeAccount(nickname){
     let parsedData = JSON.parse(jsonData);
     delete parsedData[nickname]
     fs.writeFileSync(accountData,JSON.stringify(parsedData,null,2));
+    let userPathWithoutBin = path.join(multiUserFolder,nickname)
     let userPath = path.join(multiUserFolder,nickname,'user.bin')
     if(fs.existsSync(userPath)){
         rimraf.sync(userPath)
+        rimraf.sync(userPathWithoutBin)
     }
+
 
 
 }
@@ -101,10 +111,18 @@ catch (error){
 
  */
 //removeAccount('mute')
+function getAccountList(){
+    let jsonFile = fs.readFileSync(accountData,'utf8')
+    return JSON.parse(jsonFile);
+
+}
+
+
 module.exports={
     removeParsecUserFile,
     createAccount,
     checkNickname,
     removeAccount,
-    switchAccountData
+    switchAccountData,
+    getAccountList
 }
