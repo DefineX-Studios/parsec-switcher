@@ -1,4 +1,4 @@
 .idea/
 node_modules/
 test.txt
-account_data.JSON
+config/account_data.JSON
