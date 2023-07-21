@@ -1,19 +1,20 @@
 #!/usr/bin/env node
-const {addAccount,deleteAccount,returnAccountList} = require('./account-handler')
-const child_process = require("child_process");
+const {addAccount,deleteAccount,returnAccountList, switchAccount} = require('./account-handler')
+const {setupRequired,runSetup} = require('./setup')
 const docopt = require('docopt').docopt;
 
 const doc = `
-Parseec Account Switcher
+Parsec Account Switcher
 
 Usage:
-  parsec-account -s <nickname> | --switch <nickname>
-  parsec-account -a <nickname> | --add <nickname>
-  parsec-account -d <nickname> | --delete <nickname>
-  parsec-account -l | --list
-  parsec-account -h <nickname> | --help
+  parsec-switcher -s <nickname> | --switch <nickname>
+  parsec-switcher -a <nickname> | --add <nickname>
+  parsec-switcher -d <nickname> | --delete <nickname>
+  parsec-switcher -l | --list
+  parsec-switcher -h | --help
+  parsec-switcher setup <parsecdLocation>
   
-  my-cli --version
+  parsec-switcher --version
 
 Options:
   -h --help     Show this screen.
@@ -22,23 +23,43 @@ Options:
 
 const options = docopt(doc, { version: '0.0.1' });
 
-if (options['-a'] || options['--add']){
-    console.log(`Adding ${options['<nickname>']}`);
-    addAccount(options['<nickname>']);
-}
-else if (options['-d'] || options['--delete']){
-    console.log(` Deleting account ${options['<nickname>']}`);
-    deleteAccount(options['<nickname']);
-}
-else if (options['-s'] || options['--switch']){
-    console.log(`Switching account to ${options['<nickname>']}`);
+try {
+    if(options['setup']){
+        console.log("Running setup")
+        runSetup(options['<parsecdLocation>'])
+    }
+
+        if(setupRequired()){
+            throw new Error("Setup required, run parsec-switcher setup \"Your Parsecd.exe location\", this will nuke your parsec-switcher data and accounts")
+        }
+
+
+       else if (options['-a'] || options['--add']){
+
+            console.log(`Adding ${options['<nickname>']}`);
+            addAccount(options['<nickname>']);
+        }
+        else if (options['-d'] || options['--delete']){
+            console.log(` Deleting account ${options['<nickname>']}`);
+            deleteAccount(options['<nickname>']);
+        }
+        else if (options['-s'] || options['--switch']){
+            console.log(`Switching account to ${options['<nickname>']}`);
+           switchAccount(options['<nickname>'])
+
+        }
+        else if (options['-l'] || options['--list']){
+            console.log('Printing the list ')
+            list = returnAccountList()
+            console.log(list)
+        }
 
 }
-else if (options['-l'] || options['--list']){
-    console.log('Printing the list ')
-    list = returnAccountList()
-    console.log(list)
+catch (error){
+    console.log(error.message)
 }
+
+
 /*
 if (options['hello']) {
     console.log(`Hello, ${options['<name>']}!`);
