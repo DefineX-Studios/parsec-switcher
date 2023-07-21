@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const {addAccount,deleteAccount,returnAccountList, switchAccount} = require('./account-handler')
-const {setupRequired,runSetup} = require('./setup')
+const {addAccount,deleteAccount,returnAccountList, switchAccount} = require('./lib/account-handler')
+const {setupRequired,runSetup} = require('./lib/setup')
 const docopt = require('docopt').docopt;
 
 const doc = `

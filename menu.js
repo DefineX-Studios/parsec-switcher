@@ -1,5 +1,5 @@
 const readline = require('readline')
-const {addAccountToList,returnAccountList} = require('./account-handler')
+const {addAccountToList,returnAccountList} = require('./lib/account-handler')
 
 
 
