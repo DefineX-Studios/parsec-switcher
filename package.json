@@ -1,6 +1,6 @@
 {
   "name": "parsec-switcher",
-  "version": "0.0.3",
+  "version": "0.0.8",
   "description": "Allows for keeping multiple parsec accounts and switch between them",
   "main": "cli.js",
   "scripts": {
