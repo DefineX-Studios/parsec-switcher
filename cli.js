@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const {addAccount,deleteAccount,returnAccountList, switchAccount} = require('./lib/account-handler')
-const {setupRequired,runSetup} = require('./lib/setup')
+const {setupRequired,runSetup,autoSetup} = require('./lib/setup')
 const docopt = require('docopt').docopt;
 
 const doc = `
@@ -30,7 +30,9 @@ try {
     }
 
         if(setupRequired()){
-            throw new Error("Setup required, run parsec-switcher setup \"Your Parsecd.exe location\", this will nuke your parsec-switcher data and accounts")
+            if(!autoSetup()){
+                throw new Error("Setup required, run parsec-switcher setup \"Your Parsecd.exe location\", this will nuke your parsec-switcher data and accounts")
+            }
         }
 
 
