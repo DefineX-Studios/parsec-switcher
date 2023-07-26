@@ -29,7 +29,6 @@ if '%errorlevel%' NEQ '0' (
     CD /D "%~dp0"
 :--------------------------------------
 
-taskkill /IM pservice.exe /F
-taskkill /IM parsecd.exe /F
+taskkill /IM %1 /F
 
 :: set /p DUMMY=Hit ENTER to continue...
