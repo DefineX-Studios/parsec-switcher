@@ -36,21 +36,21 @@ try {
         }
 
 
-       else if (options['-a'] || options['--add']){
+       if (options['-a'] || options['--add']){
 
             console.log(`Adding ${options['<nickname>']}`);
             addAccount(options['<nickname>']);
         }
-        else if (options['-d'] || options['--delete']){
+        if (options['-d'] || options['--delete']){
             console.log(` Deleting account ${options['<nickname>']}`);
             deleteAccount(options['<nickname>']);
         }
-        else if (options['-s'] || options['--switch']){
+        if (options['-s'] || options['--switch']){
             console.log(`Switching account to ${options['<nickname>']}`);
            switchAccount(options['<nickname>'])
 
         }
-        else if (options['-l'] || options['--list']){
+        if (options['-l'] || options['--list']){
             console.log('Printing the list ')
             list = returnAccountList()
             console.log(list)
