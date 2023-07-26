@@ -40,6 +40,7 @@ try {
 
             console.log(`Adding ${options['<nickname>']}`);
             addAccount(options['<nickname>']);
+
         }
         if (options['-d'] || options['--delete']){
             console.log(` Deleting account ${options['<nickname>']}`);
