@@ -1,6 +1,77 @@
-body {
-    font-size: 32px;
-    background-color: black;
-    color: yellow;
-    text-align: center;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body{
+  background-image: url(./images/img1.avif);
+  background-position: center;
+  background-size: cover;
+}
+
+:root {
+  --btn-color: #f50049;
+  --primary-font:'Rubik', sans-serif;
+}
+
+.main-btn {
+  display: inline-block;
+  color: white;
+  background-color:var(--btn-color);
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 9.5px 11px;
+  line-height: 1.6;
+  position: absolute;
+  left: 25%;
+  border-radius: 5.4rem;
+}
+.main-btn:hover {
+  background-color: white;
+  color: black;
+}
+.mynav {
+  position: fixed;
+  background-color:#0001;
+  /* background-color: rgb(37, 171, 255); */
+  border-bottom:white 2px solid;
+  height: 7vh;
+  text-transform: uppercase;
+  /* text-transform: capitalize; */
+}
+.mynav h6{
+color: white;
+font-family: var(--primary-font);
+padding-top: 5px;
+}
+
+.content{
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%,-50%); 
+}
+
+.content h1{
+  color: white;
+  font-family: 'Comic Neue', cursive;
+  text-align: center;
+  font-weight: 800;
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+.content p {
+  color: white;
+  font-size: 17px;
+  font-family: var(--primary-font);
+  text-align: center;
+}
+/* .yellow{
+  color: #ffae11;
+} */

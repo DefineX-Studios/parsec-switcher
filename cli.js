@@ -60,11 +60,3 @@ catch (error){
 }
 
 
-/*
-if (options['hello']) {
-    console.log(`Hello, ${options['<name>']}!`);
-} else if (options['goodbye']) {
-    console.log(`Goodbye, ${options['<name>']}!`);
-}
-
-*/
