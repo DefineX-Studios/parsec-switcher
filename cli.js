@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const {addAccount,deleteAccount,returnAccountList, switchAccount} = require('./lib/account-handler')
-const {setupRequired,runSetup} = require('./lib/setup')
+const {setupRequired,runSetup,autoSetup} = require('./lib/setup')
 const docopt = require('docopt').docopt;
 
 const doc = `
@@ -30,25 +30,28 @@ try {
     }
 
         if(setupRequired()){
-            throw new Error("Setup required, run parsec-switcher setup \"Your Parsecd.exe location\", this will nuke your parsec-switcher data and accounts")
+            if(!autoSetup()){
+                throw new Error("Setup required, run parsec-switcher setup \"Your Parsecd.exe location\", this will nuke your parsec-switcher data and accounts")
+            }
         }
 
 
-       else if (options['-a'] || options['--add']){
+       if (options['-a'] || options['--add']){
 
             console.log(`Adding ${options['<nickname>']}`);
             addAccount(options['<nickname>']);
+
         }
-        else if (options['-d'] || options['--delete']){
+        if (options['-d'] || options['--delete']){
             console.log(` Deleting account ${options['<nickname>']}`);
             deleteAccount(options['<nickname>']);
         }
-        else if (options['-s'] || options['--switch']){
+        if (options['-s'] || options['--switch']){
             console.log(`Switching account to ${options['<nickname>']}`);
            switchAccount(options['<nickname>'])
 
         }
-        else if (options['-l'] || options['--list']){
+        if (options['-l'] || options['--list']){
             console.log('Printing the list ')
             list = returnAccountList()
             console.log(list)
