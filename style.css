@@ -38,18 +38,14 @@ body{
 }
 .mynav {
   position: fixed;
-  /* background-color:#0001; */
-  /* background-color: var(--btn-color); */
   background-color: var(--secondary-color);
-  /* background-color: rgb(37, 171, 255); */
-  /* border-bottom:white 2px solid; */
   height: 7vh;
   text-transform: uppercase;
   /* text-transform: capitalize; */
 }
 .mynav h6{
-/* color: white; */
 color: black;
+font-weight: 550;
 font-family: var(--primary-font);
 padding-top: 5px;
 }
@@ -80,11 +76,6 @@ padding-top: 5px;
   font-family: var(--primary-font);
   text-align: center;
 }
-.yellow{
-  /* color: #ffae11; */
-  color: var(--primary-color);
-}
-
 
 /* Modal CSS  */
 .popup{
@@ -95,6 +86,7 @@ padding-top: 5px;
 .modal-body {
   padding: 0;
   background-color: black;
+  /* background-color: var(--primary-color); */
 }
 .btn-close {
   position: absolute;
@@ -102,16 +94,103 @@ padding-top: 5px;
   margin-right: 10px;
   font-size: 12px;
 }
-input{
-    width: 100%;
-    height: 2.6rem;
-    /* background-color: var(--colors-cereza); */
-    transition: 125ms ease;
-    padding: 0.6rem 1rem;
-    color: white;
-    border: white 2px solid;
-    font-size: 1.4rem;
-    border-radius: 25px;
-    text-align: inherit;
+
+.input-field{
+  position: relative;
+  width: 90%;
+  margin: auto;
+  display: block;
+  border-bottom: 2px solid white;
 }
+input{
+  width: 100%;
+  height: 45px;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0 20px 0 5px;
+  color: white;
+  font-size: 16px;
+}
+#error{
+  color:red;
+  /* border-bottom: red 2px solid; */
+  position: relative;
+  top: 10px;
+  left: 27px;
+}
+/* User Profile Card CSS  */
+
+.accounts-container{
+	display: flex;
+	align-items: center;
+  justify-content: start;
+}
+.accounts-list {
+  margin-top: 10px;
+	padding: 20px;
+	display: flex;
+  position: absolute;
+  top: 50%;
+	align-items: center;
+  justify-content: start;
+	flex-wrap: wrap;
+}
+
+.user-card{
+  /* border: 2px solid ; */
+	width: 200px;
+  height: 200px;
+	margin: 15px;
+  border-radius: 20px;
+  /* background-color:#0001; */
+  background-color: rgba(255,255,255,0.30);
+	transition: all 0.6s ease-in-out;
+}
+
+.profile-img{
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+}
+.profile-img img{
+  width: 100px;
+  border: 2px solid white;
+  border-radius: 50%;
+  height: 100px;
+} 
+
+.user-card h6 {
+  margin: 0;
+  color: white;
+	font-size: 20px;
+}
+.user-card .btn{
+  color: white;
+  font-size: 25px;
+ margin-left: 30px;
+ margin-top: 0;
+}
+.user-card .btn:hover{
+  color: var(--secondary-color);
+}
+/* .active{
+  background-color: yellow;
+  border: 5px yellow solid;
+} */
+
+/* Add New User Button */
+.plusBtn button{
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  left: 95%;
+  top: 90%;
+  position: fixed;
+  transform: translate(-50%,-50%);
+  border-radius: 50%;
+  border: var(--secondary-color) solid 2px;
+}
+
+
 
