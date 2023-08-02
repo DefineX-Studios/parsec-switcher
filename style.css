@@ -81,12 +81,11 @@ padding-top: 5px;
 .popup{
   color: black;
   max-width: 100%;
-  height: 17vh;
+  height: 25vh;
 }
 .modal-body {
   padding: 0;
   background-color: black;
-  /* background-color: var(--primary-color); */
 }
 .btn-close {
   position: absolute;
@@ -100,7 +99,8 @@ padding-top: 5px;
   width: 90%;
   margin: auto;
   display: block;
-  border-bottom: 2px solid white;
+  border-radius: 25px;
+  border: 2px solid white;
 }
 input{
   width: 100%;
@@ -108,19 +108,17 @@ input{
   background: transparent;
   border: none;
   outline: none;
-  padding: 0 20px 0 5px;
+  padding: 8px;
   color: white;
   font-size: 16px;
 }
 #error{
   color:red;
-  /* border-bottom: red 2px solid; */
   position: relative;
-  top: 10px;
-  left: 27px;
+  visibility: hidden;
+  left: 30px;
 }
 /* User Profile Card CSS  */
-
 .accounts-container{
 	display: flex;
 	align-items: center;
@@ -138,7 +136,6 @@ input{
 }
 
 .user-card{
-  /* border: 2px solid ; */
 	width: 200px;
   height: 200px;
 	margin: 15px;
@@ -174,10 +171,7 @@ input{
 .user-card .btn:hover{
   color: var(--secondary-color);
 }
-/* .active{
-  background-color: yellow;
-  border: 5px yellow solid;
-} */
+
 
 /* Add New User Button */
 .plusBtn button{
@@ -191,6 +185,4 @@ input{
   border-radius: 50%;
   border: var(--secondary-color) solid 2px;
 }
-
-
 
