@@ -1,8 +1,19 @@
 #!/usr/bin/env node
+//console.log("0")
 const {addAccount,deleteAccount,returnAccountList, switchAccount} = require('./lib/account-handler')
-const {setupRequired,runSetup,autoSetup} = require('./lib/setup')
+//console.log("1")
+const {global_state,initialize} = require("./lib/initialize")
+//console.log("2")
+
+//cnsole.log("3")
 const docopt = require('docopt').docopt;
 
+//console.log(4)
+
+initialize()
+
+
+//console.log(5)
 const doc = `
 Parsec Account Switcher
 
@@ -24,19 +35,11 @@ Options:
 const options = docopt(doc, { version: '0.0.1' });
 
 try {
-    if(options['setup']){
-        console.log("Running setup")
-        runSetup(options['<parsecdLocation>'])
+    if(!global_state.config["parsecdFound"]){
+        console.log("Parsecd not found, run \"parsec-switcher setup <parsecdLocation>\" ")
     }
-
-        if(setupRequired()){
-            if(!autoSetup()){
-                throw new Error("Setup required, run parsec-switcher setup \"Your Parsecd.exe location\", this will nuke your parsec-switcher data and accounts")
-            }
-        }
-
-
-       if (options['-a'] || options['--add']){
+    else {
+        if (options['-a'] || options['--add']){
 
             console.log(`Adding ${options['<nickname>']}`);
             addAccount(options['<nickname>']);
@@ -48,7 +51,7 @@ try {
         }
         if (options['-s'] || options['--switch']){
             console.log(`Switching account to ${options['<nickname>']}`);
-           switchAccount(options['<nickname>'])
+            switchAccount(options['<nickname>'])
 
         }
         if (options['-l'] || options['--list']){
@@ -56,6 +59,9 @@ try {
             list = returnAccountList()
             console.log(list)
         }
+    }
+
+
 
 }
 catch (error){
