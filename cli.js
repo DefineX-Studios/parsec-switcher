@@ -42,6 +42,7 @@ try {
         if (options['-a'] || options['--add']){
 
             console.log(`Adding ${options['<nickname>']}`);
+            global_state.onConfigChanged.push(rando)
             addAccount(options['<nickname>']);
 
         }
@@ -67,7 +68,9 @@ try {
 catch (error){
     console.log(error.message)
 }
-
+function rando(){
+    console.log("add a new cat")
+}
 
 /*
 if (options['hello']) {
