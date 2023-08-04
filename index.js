@@ -4,6 +4,10 @@ app.whenReady().then(createWindow);
 
 function createWindow() {
   const win = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
     width: 1000,
     height: 600,
     resizable: true,

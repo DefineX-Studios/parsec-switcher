@@ -1,5 +1,6 @@
 // const {addAccount,deleteAccount,returnAccountList,switchAccount} = require ('./lib/account-handler')
 
+const {addAccount} = require("./lib/account-handler");
 let accountsContainer = document.querySelector('.accounts-container');
 let accountsDiv = document.createElement('div');
 accountsDiv.classList.add('accounts-list');
@@ -15,7 +16,7 @@ document.getElementById('add-btn').addEventListener('click',addParsecAccount)
 document.getElementById("plus-btn").style.display = "none";
 
 
-function addParsecAccount(e){
+async function addParsecAccount(e){
     e.preventDefault();
     if(inputBox.value === ''){
       errorMessage.style.visibility = "visible"
@@ -24,6 +25,8 @@ function addParsecAccount(e){
       errorMessage.style.visibility = "hidden"
       errorMessage.innerHTML= ""
     let userNickname = inputBox.value
+        await addAccount(userNickname);
+
     let userCard = `
     <div class="user-card active">
     <div class="profile-img">
