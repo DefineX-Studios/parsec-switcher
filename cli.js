@@ -1,8 +1,15 @@
 #!/usr/bin/env node
 const {addAccount,deleteAccount,returnAccountList, switchAccount} = require('./lib/account-handler')
-const {setupRequired,runSetup,autoSetup} = require('./lib/setup')
+const {global_state,initialize} = require("./lib/initialize")
+
 const docopt = require('docopt').docopt;
 
+//console.log(4)
+
+initialize()
+
+
+//console.log(5)
 const doc = `
 Parsec Account Switcher
 
@@ -13,7 +20,7 @@ Usage:
   parsec-switcher -l | --list
   parsec-switcher -h | --help
   parsec-switcher setup <parsecdLocation>
-  
+  parsec-switcher changeDefault <nickname>
   parsec-switcher --version
 
 Options:
@@ -23,43 +30,28 @@ Options:
 
 const options = docopt(doc, { version: '0.0.1' });
 
-try {
-    if(options['setup']){
-        console.log("Running setup")
-        runSetup(options['<parsecdLocation>'])
+if(!global_state.config["parsecdFound"]){
+    console.log("Parsecd not found, run \"parsec-switcher setup <parsecdLocation>\" ")
+}
+else {
+    if (options['-a'] || options['--add']){
+
+        console.log(`Adding ${options['<nickname>']}`);
+        addAccount(options['<nickname>']);
+
     }
+    if (options['-d'] || options['--delete']){
+        console.log(` Deleting account ${options['<nickname>']}`);
+        deleteAccount(options['<nickname>']);
+    }
+    if (options['-s'] || options['--switch']){
+        console.log(`Switching account to ${options['<nickname>']}`);
+        switchAccount(options['<nickname>'])
 
-        if(setupRequired()){
-            if(!autoSetup()){
-                throw new Error("Setup required, run parsec-switcher setup \"Your Parsecd.exe location\", this will nuke your parsec-switcher data and accounts")
-            }
-        }
-
-
-       if (options['-a'] || options['--add']){
-
-            console.log(`Adding ${options['<nickname>']}`);
-            addAccount(options['<nickname>']);
-
-        }
-        if (options['-d'] || options['--delete']){
-            console.log(` Deleting account ${options['<nickname>']}`);
-            deleteAccount(options['<nickname>']);
-        }
-        if (options['-s'] || options['--switch']){
-            console.log(`Switching account to ${options['<nickname>']}`);
-           switchAccount(options['<nickname>'])
-
-        }
-        if (options['-l'] || options['--list']){
-            console.log('Printing the list ')
-            list = returnAccountList()
-            console.log(list)
-        }
-
+    }
+    if (options['-l'] || options['--list']){
+        console.log('Printing the list ')
+        list = returnAccountList()
+        console.log(list)
+    }
 }
-catch (error){
-    console.log(error.message)
-}
-
-
