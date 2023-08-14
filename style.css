@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 body{
-  background-image: url(./images/img1.avif);
+  background-image: url(gui/images/img1.avif);
   background-position: center;
   background-size: cover;
 }

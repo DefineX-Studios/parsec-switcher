@@ -12,7 +12,7 @@ function createWindow() {
     height: 600,
     resizable: true,
   });
-  win.loadFile("index.html");
+  win.loadFile("gui/index.html");
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common
