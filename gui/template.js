@@ -1,4 +1,4 @@
-function generate_user_card(userNickname){
+function generate_user_card(userNickname, isCurrent){
     //todo make the popup generalized so it looks better in code, and can be used in other places
     return`
     <div id="card-${userNickname}" >
@@ -12,7 +12,9 @@ function generate_user_card(userNickname){
             
             <button class="btn" id="switch-btn-${userNickname}"><i class="fa fa-repeat"></i></button>
             <button class="btn" id="delete-btn-${userNickname}"><i class="fa fa-trash"></i></button>
+            <i class="fa fa-check" ${isCurrent?"":"hidden"}></i>
         </div>
+    </div>
     `
 }
 

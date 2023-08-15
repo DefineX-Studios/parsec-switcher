@@ -70,7 +70,7 @@ function render(){
     const {accounts, currentUser} = PSS.returnAccountList();
     console.log(JSON.stringify(accounts));
     for (const nickname of accounts){
-        const userCardString = templates.generate_user_card(nickname);
+        const userCardString = templates.generate_user_card(nickname, nickname === currentUser);
         accountsDiv.insertAdjacentHTML('beforeend', userCardString);
 
         // Deleting User Profile

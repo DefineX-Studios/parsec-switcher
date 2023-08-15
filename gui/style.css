@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 body{
-  background-image: url(gui/images/img1.avif);
+  background-image: url(images/img1.avif);
   background-position: center;
   background-size: cover;
 }
@@ -136,6 +136,7 @@ input{
 }
 
 .user-card{
+  position: relative;
 	width: 200px;
   height: 200px;
 	margin: 15px;
@@ -168,6 +169,13 @@ input{
  margin-left: 30px;
  margin-top: 0;
 }
+.user-card .fa-check {
+  position: absolute;
+  color:white;
+  font-size: 50px;
+  top: -15px;
+  left: -15px;
+}
 .user-card .btn:hover{
   color: var(--secondary-color);
 }
@@ -185,4 +193,3 @@ input{
   border-radius: 50%;
   border: var(--secondary-color) solid 2px;
 }
-
