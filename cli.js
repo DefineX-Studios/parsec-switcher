@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const {addAccount,deleteAccount,returnAccountList, switchAccount} = require('./lib/account-handler')
 const {global_state,initialize} = require("./lib/initialize")
-
+var child_process = require('child_process');
 const docopt = require('docopt').docopt;
 
 //console.log(4)
@@ -9,11 +9,11 @@ const docopt = require('docopt').docopt;
 initialize()
 
 
-//console.log(5)
 const doc = `
 Parsec Account Switcher
 
 Usage:
+  parsec-switcher
   parsec-switcher -s <nickname> | --switch <nickname>
   parsec-switcher -a <nickname> | --add <nickname>
   parsec-switcher -d <nickname> | --delete <nickname>
@@ -40,18 +40,21 @@ else {
         addAccount(options['<nickname>']);
 
     }
-    if (options['-d'] || options['--delete']){
+    else if (options['-d'] || options['--delete']){
         console.log(` Deleting account ${options['<nickname>']}`);
         deleteAccount(options['<nickname>']);
     }
-    if (options['-s'] || options['--switch']){
+    else if (options['-s'] || options['--switch']){
         console.log(`Switching account to ${options['<nickname>']}`);
         switchAccount(options['<nickname>'])
 
     }
-    if (options['-l'] || options['--list']){
+    else if (options['-l'] || options['--list']){
         console.log('Printing the list ')
         list = returnAccountList()
         console.log(list)
+    }
+    else{
+        child_process.spawn(`${__dirname}\\node_modules\\.bin\\electron.cmd`, [`${__dirname}\\index.js`]);
     }
 }
