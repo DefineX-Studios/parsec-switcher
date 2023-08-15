@@ -30,46 +30,14 @@
           Absolute Ease</span>
       </h1>
       <p>Simplify your experience, amplify your productivity.</p>
-      <button class="main-btn" data-bs-toggle="modal" data-bs-target="#Modal1"><i class="fa fa-user-plus"></i> Add
+      <button class="main-btn" id="add-account-btn"><i class="fa fa-user-plus"></i> Add
         Parsec Account</button>
-    </div>
-  </div>
-
-
-  <!-- todo generalize this popup too -->
-  <!-- Add Parsec Account Modal -->
-  <div class="modal fade" id="Modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-body">
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-
-          <div class="popup">
-            <!-- <form> -->
-              <small id="error"></small>
-              <div class="mb-3 mt-2 input-field">
-                <input id="input-box" type="text" autocomplete="off" placeholder="Enter Nickname" required>
-              </div>
-              <button type="button" value="Add Account" id="add-btn" class="main-btn d-flex justify-content-center">Add Account</button>
-            <!-- </form> -->
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
 <div id="popup-div"></div>
   <!-- User Accounts List -->
   <div id="accounts-container"></div>
-
-  <!-- Add New User Plus Icon Button  -->
-  <div class="plusBtn" id="plus-btn" data-bs-toggle="modal" data-bs-target="#Modal1">
-    <button>
-      <h1>+</h1>
-    </button>
-  </div>
-
-
 
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>

@@ -10,7 +10,6 @@ function generate_user_card(userNickname){
             
             <h6 class="text-center">${userNickname}</h6>
             
-            <! -- switch button -->
             <button class="btn" id="switch-btn-${userNickname}"><i class="fa fa-repeat"></i></button>
             <button class="btn" id="delete-btn-${userNickname}"><i class="fa fa-trash"></i></button>
         </div>
@@ -38,4 +37,27 @@ function generate_yes_no_popup(description, no_text, yes_text) {
 `
 }
 
-module.exports = {generate_user_card, generate_yes_no_popup}
+function generate_text_input_popup(placeholder, submit_text_button){
+    return `<div class="modal fade" id="text-input-popup" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" id="text-input-popup-backdrop-btn"></button>
+
+          <div class="popup">
+            <!-- <form> -->
+              <small id="error"></small>
+              <div class="mb-3 mt-2 input-field">
+                <input id="text-input-popup-input-text" type="text" autocomplete="off" placeholder="${placeholder}" required>
+              </div>
+              <button type="button" id="text-input-popup-submit-btn" class="main-btn d-flex justify-content-center">${submit_text_button}</button>
+            <!-- </form> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+`
+}
+
+module.exports = {generate_user_card, generate_yes_no_popup, generate_text_input_popup}

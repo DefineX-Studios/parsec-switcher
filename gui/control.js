@@ -4,33 +4,12 @@ const {global_state} = require("../lib/initialize");
 const {initialize} = require("../lib/initialize");
 
 const accountsContainer = document.getElementById('accounts-container');
-const inputBox = document.getElementById('input-box')
-const errorMessage = document.getElementById('error');
-const addAccountButton = document.getElementById('add-btn');
+const addAccountButton = document.getElementById('add-account-btn');
 
 initialize();
-
-//Plus Add Account Btn (Visibility kept Hidden)
-document.getElementById("plus-btn").style.display = "none";
-
 global_state.onConfigChanged.push(render);
-addAccountButton.addEventListener('click',addParsecAccount)
 
-async function addParsecAccount(e){
-    e.preventDefault();
-    if(inputBox.value === ''){
-      errorMessage.style.visibility = inputBox.value === '' ? "visible" : "hidden"
-      errorMessage.innerText = "Please Enter Nickname";
-      return;
-    }
-
-    errorMessage.style.visibility = "hidden";
-    errorMessage.innerHTML= "";
-
-    let userNickname = inputBox.value;
-    await PSS.addAccount(userNickname);
-    document.getElementById("input-box").value = "";
-}
+addAccountButton.addEventListener('click', addButtonPressed);
 
 
 //todo move popup to different file/class
@@ -45,15 +24,38 @@ async function showYesNoPopup(description, negative_text, positive_text){
     return new Promise(resolve => {
         const resolveAndClose = result => {
             modal.hide();
-            document.getElementById("yes-no-popup").addEventListener("hidden.bs.modal", () => {
-                popupDiv.innerHTML = "";
-            });
             resolve(result);
         }
         document.getElementById(`yes-no-popup-backdrop-btn`).addEventListener('click', e=> resolveAndClose(false));
         document.getElementById(`yes-no-popup-negative-btn`).addEventListener('click', e=> resolveAndClose(false));
         document.getElementById(`yes-no-popup-positive-btn`).addEventListener('click', e=> resolveAndClose(true));
     });
+}
+
+async function showTextInputPopup(placeholder, submit_text_button){
+    const html = templates.generate_text_input_popup(placeholder, submit_text_button);
+    const popupDiv = document.getElementById("popup-div");
+    popupDiv.innerHTML = html;
+    const modal = new bootstrap.Modal(document.querySelector("#text-input-popup"));
+    modal.show();
+
+    const input = document.getElementById(`text-input-popup-input-text`);
+
+    return new Promise(resolve => {
+        const resolveAndClose = result => {
+            input.value = "";
+            modal.hide();
+            resolve(result);
+        }
+        document.getElementById(`text-input-popup-backdrop-btn`).addEventListener('click', e=> resolveAndClose(null));
+        document.getElementById(`text-input-popup-submit-btn`).addEventListener('click', e=> resolveAndClose(input.value));
+    });
+}
+
+async function addButtonPressed(){
+    const nickname = await showTextInputPopup("Enter Nickname", "Add Account");
+    if(!nickname) return;
+    await PSS.addAccount(nickname);
 }
 
 function render(){
@@ -70,9 +72,6 @@ function render(){
     for (const nickname of accounts){
         const userCardString = templates.generate_user_card(nickname);
         accountsDiv.insertAdjacentHTML('beforeend', userCardString);
-
-        //Plus Add Account Btn (Visibile after atleast one user is added)
-        document.getElementById("plus-btn").style.display = "block";
 
         // Deleting User Profile
         document.getElementById(`switch-btn-${nickname}`).addEventListener('click',async function(){
