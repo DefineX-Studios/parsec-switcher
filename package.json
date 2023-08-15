@@ -10,13 +10,6 @@
   "bin": {
     "parsec-switcher": "cli.js"
   },
-  "files": [
-    "/",
-    "!.gitignore",
-    "!.idea",
-    "!.git",
-    "!test.txt"
-  ],
   "keywords": [],
   "author": "Shamuwel Ahmed",
   "license": "ISC",
