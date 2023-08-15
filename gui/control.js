@@ -16,11 +16,6 @@ document.getElementById("plus-btn").style.display = "none";
 global_state.onConfigChanged.push(render);
 addAccountButton.addEventListener('click',addParsecAccount)
 
-
-function clearInput(){
-    document.getElementById("input-box").getInput.value = "";
-}
-
 async function addParsecAccount(e){
     e.preventDefault();
     if(inputBox.value === ''){
@@ -34,7 +29,31 @@ async function addParsecAccount(e){
 
     let userNickname = inputBox.value;
     await PSS.addAccount(userNickname);
-    clearInput();
+    document.getElementById("input-box").value = "";
+}
+
+
+//todo move popup to different file/class
+async function showYesNoPopup(description, negative_text, positive_text){
+    // const id = shortUUID.generate().toString();
+    const html = templates.generate_yes_no_popup(description, negative_text, positive_text);
+    const popupDiv = document.getElementById("popup-div");
+    popupDiv.innerHTML = html;
+    const modal = new bootstrap.Modal(document.querySelector("#yes-no-popup"));
+    modal.show();
+
+    return new Promise(resolve => {
+        const resolveAndClose = result => {
+            modal.hide();
+            document.getElementById("yes-no-popup").addEventListener("hidden.bs.modal", () => {
+                popupDiv.innerHTML = "";
+            });
+            resolve(result);
+        }
+        document.getElementById(`yes-no-popup-backdrop-btn`).addEventListener('click', e=> resolveAndClose(false));
+        document.getElementById(`yes-no-popup-negative-btn`).addEventListener('click', e=> resolveAndClose(false));
+        document.getElementById(`yes-no-popup-positive-btn`).addEventListener('click', e=> resolveAndClose(true));
+    });
 }
 
 function render(){
@@ -49,21 +68,23 @@ function render(){
     const {accounts, currentUser} = PSS.returnAccountList();
     console.log(JSON.stringify(accounts));
     for (const nickname of accounts){
-        const userCardString = templates.create_user_card(nickname);
+        const userCardString = templates.generate_user_card(nickname);
         accountsDiv.insertAdjacentHTML('beforeend', userCardString);
 
         //Plus Add Account Btn (Visibile after atleast one user is added)
         document.getElementById("plus-btn").style.display = "block";
 
         // Deleting User Profile
-        document.getElementById(`switch-btn-${nickname}`).addEventListener('click',function(){
+        document.getElementById(`switch-btn-${nickname}`).addEventListener('click',async function(){
             console.log(`switching ${nickname}`)
-            PSS.switchAccount(nickname);
+            await PSS.switchAccount(nickname);
         });
 
-        document.getElementById(`delete-btn-${nickname}`).addEventListener('click',function(){
+        document.getElementById(`delete-btn-${nickname}`).addEventListener('click',async function(){
+            const agreed = await showYesNoPopup(`Are you sure you want to delete ${nickname} account?`, "Cancel", "Delete Account");
+            if(!agreed) return;
             console.log(`deleting ${nickname}`)
-            PSS.deleteAccount(nickname);
+            await PSS.deleteAccount(nickname);
         });
     }
 }

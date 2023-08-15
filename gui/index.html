@@ -36,6 +36,7 @@
   </div>
 
 
+  <!-- todo generalize this popup too -->
   <!-- Add Parsec Account Modal -->
   <div class="modal fade" id="Modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -47,7 +48,7 @@
             <!-- <form> -->
               <small id="error"></small>
               <div class="mb-3 mt-2 input-field">
-                <input id="input-box" type="text" onclick="clearInput()" autocomplete="off" placeholder="Enter Nickname" required>
+                <input id="input-box" type="text" autocomplete="off" placeholder="Enter Nickname" required>
               </div>
               <button type="button" value="Add Account" id="add-btn" class="main-btn d-flex justify-content-center">Add Account</button>
             <!-- </form> -->
@@ -57,11 +58,9 @@
     </div>
   </div>
 
-
+<div id="popup-div"></div>
   <!-- User Accounts List -->
-  <div id="accounts-container">
-  </div>
-
+  <div id="accounts-container"></div>
 
   <!-- Add New User Plus Icon Button  -->
   <div class="plusBtn" id="plus-btn" data-bs-toggle="modal" data-bs-target="#Modal1">
@@ -71,9 +70,10 @@
   </div>
 
 
-  <script src="control.js"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+  <script src="control.js"></script>
 </body>
 
 </html>
