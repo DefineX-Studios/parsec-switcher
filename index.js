@@ -14,6 +14,7 @@ function createWindow() {
     resizable: true,
   });
   win.loadFile("gui/index.html");
+  win.setMenu(null);
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common
