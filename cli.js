@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 const {addAccount,deleteAccount,returnAccountList, switchAccount} = require('./lib/account-handler')
 const {global_state,initialize} = require("./lib/initialize")
-var child_process = require('child_process');
+const child_process = require('child_process');
 const docopt = require('docopt').docopt;
+const appRoot = require('app-root-path');
 
+//todo move this in utils
 function areAllValuesFalse(obj) {
     for (const value of Object.values(obj)) {
         if (value) {
@@ -37,7 +39,7 @@ function main(){
     const options = docopt(doc, { version: '0.0.1' });
 
     if(areAllValuesFalse(options)){
-        child_process.spawn(`${__dirname}\\node_modules\\.bin\\electron.cmd`, [`${__dirname}\\index.js`]);
+        child_process.spawn(`${appRoot}\\node_modules\\.bin\\electron.cmd`, [`${appRoot}\\index.js`]);
         return;
     }
 

@@ -1,4 +1,5 @@
 const { app,dialog, BrowserWindow} = require("electron");
+const {hideConsole} = require("node-hide-console-window");
 
 app.whenReady().then(createWindow);
 
@@ -29,4 +30,5 @@ app.on('window-all-closed', () => {
       createWindow();
     }
   });
- 
+
+hideConsole();

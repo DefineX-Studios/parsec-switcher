@@ -15,12 +15,18 @@
   "license": "ISC",
   "dependencies": {
     "@electron/remote": "^2.0.10",
+    "app-root-path": "^3.1.0",
     "child_process": "^1.0.2",
+    "create-desktop-shortcuts": "^1.10.1",
     "docopt": "^0.6.2",
+    "electron": "^25.5.0",
     "mongodb": "^5.6.0",
+    "node-hide-console-window": "^2.1.1",
     "process": "^0.11.10",
     "rimraf": "^5.0.1",
-    "sync-sleep": "^1.0.0",
-    "electron": "^25.5.0"
+    "sync-sleep": "^1.0.0"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^3.2.9"
   }
 }
