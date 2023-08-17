@@ -5,7 +5,7 @@ const packageJSON = require('./package.json')
 const docopt = require('docopt').docopt;
 
 
-initialize()
+await initialize()
 
 
 const doc = `
