@@ -20,7 +20,6 @@ Usage:
   parsec-switcher -l | --list
   parsec-switcher -h | --help
   parsec-switcher setup <parsecdLocation>
-  parsec-switcher changeDefault <nickname>
   parsec-switcher --version
 
 Options:
