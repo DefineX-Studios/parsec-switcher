@@ -51,8 +51,7 @@ else if(!flags.parsecdFound){
     }
     if (options['-l'] || options['--list']){
         console.log('Printing the list ')
-        list = returnAccountList()
-        console.log(list)
+        console.log(returnAccountList())
     }
     if(options['setup']){
         global_state.config.parsecdLocation = options['<parsecdLocation>']
