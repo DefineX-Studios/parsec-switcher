@@ -4,12 +4,10 @@ const {global_state,initialize,flags} = require("./lib/initialize")
 const packageJSON = require('./package.json')
 const docopt = require('docopt').docopt;
 
-//console.log(4)
 
 initialize()
 
 
-//console.log(5)
 const doc = `
 Parsec Account Switcher
 
@@ -29,7 +27,7 @@ Options:
 
 const options = docopt(doc, { version: packageJSON.version });
 
-if(! global_state.config['parsecDataLocationFound']){
+if(!flags.parsecDataLocationFound){
     console.log("Parsec not installed")
 }
 else if(!flags.parsecdFound){
@@ -65,13 +63,3 @@ else if(!flags.parsecdFound){
 
 
 
-
-
-/*
-if (options['hello']) {
-    console.log(`Hello, ${options['<name>']}!`);
-} else if (options['goodbye']) {
-    console.log(`Goodbye, ${options['<name>']}!`);
-}
-
-*/
