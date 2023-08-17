@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const {addAccount,deleteAccount,returnAccountList, switchAccount} = require('./lib/account-handler')
-const {global_state,initialize} = require("./lib/initialize")
-
+const {global_state,initialize,flags} = require("./lib/initialize")
+const packageJSON = require('./package.json')
 const docopt = require('docopt').docopt;
 
 //console.log(4)
@@ -27,12 +27,15 @@ Options:
   --version     Show version.
 `;
 
-const options = docopt(doc, { version: '0.0.1' });
+const options = docopt(doc, { version: packageJSON.version });
 
-if(!global_state.config["parsecdFound"]){
-    console.log("Parsecd not found, run \"parsec-switcher setup <parsecdLocation>\" ")
+if(! global_state.config['parsecDataLocationFound']){
+    console.log("Parsec not installed")
 }
-else {
+else if(!flags.parsecdFound){
+    console.log("Parsecd not found, run \"parsec-switcher setup <parsecdLocation>\" ")
+
+} else {
     if (options['-a'] || options['--add']){
 
         console.log(`Adding ${options['<nickname>']}`);
@@ -52,6 +55,9 @@ else {
         console.log('Printing the list ')
         list = returnAccountList()
         console.log(list)
+    }
+    if(options['setup']){
+        global_state.config.parsecdLocation = options['<parsecdLocation>']
     }
 }
 
