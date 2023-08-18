@@ -27,38 +27,44 @@ Options:
 
 const options = docopt(doc, { version: packageJSON.version });
 
-if(!flags.parsecDataLocationFound){
-    console.log("Parsec not installed")
-}
-else if(!flags.parsecdFound){
-    console.log("Parsecd not found, run \"parsec-switcher setup <parsecdLocation>\" ")
 
-} else {
+
+async function main(){
+    if(!flags.parsecDataLocationFound){
+        console.log("Parsec not installed")
+        return
+    }
+    if(!flags.parsecdFound){
+        console.log("Parsecd not found, run \"parsec-switcher setup <parsecdLocation>\" ")
+        return
+    }
     if (options['-a'] || options['--add']){
 
-        console.log(`Adding ${options['<nickname>']}`);
+    console.log(`Adding ${options['<nickname>']}`);
         addAccount(options['<nickname>']);
+        return
 
     }
     if (options['-d'] || options['--delete']){
         console.log(` Deleting account ${options['<nickname>']}`);
         deleteAccount(options['<nickname>']);
+        return
     }
     if (options['-s'] || options['--switch']){
         console.log(`Switching account to ${options['<nickname>']}`);
         switchAccount(options['<nickname>'])
+        return
 
     }
     if (options['-l'] || options['--list']){
         console.log('Printing the list ')
         console.log(returnAccountList())
+        return
     }
     if(options['setup']){
         global_state.config.parsecdLocation = options['<parsecdLocation>']
+        return
     }
 }
 
-
-
-
-
+await main()
