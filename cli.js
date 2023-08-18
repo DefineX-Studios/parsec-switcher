@@ -2,6 +2,7 @@
 const {addAccount,deleteAccount,returnAccountList, switchAccount} = require('./lib/account-handler')
 const {global_state,initialize,flags} = require("./lib/initialize")
 const packageJSON = require('./package.json')
+const {error} = require("./lib/error");
 const docopt = require('docopt').docopt;
 
 
@@ -41,19 +42,19 @@ async function main(){
     if (options['-a'] || options['--add']){
 
     console.log(`Adding ${options['<nickname>']}`);
-        addAccount(options['<nickname>']);
-        return
+
+    return await addAccount(options['<nickname>']);
 
     }
     if (options['-d'] || options['--delete']){
         console.log(` Deleting account ${options['<nickname>']}`);
-        deleteAccount(options['<nickname>']);
-        return
+       return await deleteAccount(options['<nickname>']);
+
     }
     if (options['-s'] || options['--switch']){
         console.log(`Switching account to ${options['<nickname>']}`);
-        switchAccount(options['<nickname>'])
-        return
+        return await switchAccount(options['<nickname>'])
+
 
     }
     if (options['-l'] || options['--list']){
@@ -63,8 +64,8 @@ async function main(){
     }
     if(options['setup']){
         global_state.config.parsecdLocation = options['<parsecdLocation>']
-        return
     }
+    return error.SUCCESS
 }
 
-await main()
+console.log(await main())
