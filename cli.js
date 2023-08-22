@@ -2,9 +2,8 @@
 const {addAccount,deleteAccount,returnAccountList, switchAccount} = require('./lib/account-handler')
 const {global_state,initialize} = require("./lib/initialize")
 const packageJSON = require('./package.json')
-const {error} = require("./lib/error");
+const {error, errorToMessage} = require("./lib/error");
 const docopt = require('docopt').docopt;
-
 const doc = `
 Parsec Account Switcher
 
@@ -25,7 +24,10 @@ Options:
 const options = docopt(doc, { version: packageJSON.version });
 
 async function main(){
-    await initialize()
+    let error1 = await initialize()
+    if (error1){
+        return error1
+    }
     if(!global_state.flags.parsecDataLocationFound){
         console.log("Parsec not installed")
         return
@@ -62,5 +64,6 @@ async function main(){
     }
     return error.SUCCESS
 }
-
-console.log(await main())
+main().then((op)=>{
+    console.log(errorToMessage[op])
+})
