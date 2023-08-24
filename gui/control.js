@@ -6,11 +6,6 @@ const {initialize} = require("../lib/initialize");
 const accountsContainer = document.getElementById('accounts-container');
 const addAccountButton = document.getElementById('add-account-btn');
 
-initialize();
-global_state.onConfigChanged.push(render);
-
-addAccountButton.addEventListener('click', addButtonPressed);
-
 
 //todo move popup to different file/class
 async function showYesNoPopup(description, negative_text, positive_text){
@@ -88,4 +83,10 @@ function render(){
     }
 }
 
-render();
+async function main(){
+    const error = await initialize();
+    global_state.onConfigChanged.push(render);
+    addAccountButton.addEventListener('click', addButtonPressed);
+    render();
+}
+main();

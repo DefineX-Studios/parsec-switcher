@@ -3,9 +3,10 @@ const {addAccount,deleteAccount,returnAccountList, switchAccount} = require('./l
 const {global_state,initialize} = require("./lib/initialize")
 const child_process = require('child_process');
 const docopt = require('docopt').docopt;
-const appRoot = require('app-root-path');
 const packageJSON = require('./package.json')
 const {error, errorToMessage} = require("./lib/error");
+const {indexJsPath, electronPath} = require("./lib/constants");
+const {areAllValuesFalse} = require("./util/util");
 const doc = `
 Parsec Account Switcher
 
@@ -32,7 +33,7 @@ async function main(){
     const options = docopt(doc, { version: packageJSON.version });
 
     if(areAllValuesFalse(options)){
-        child_process.spawn(`${appRoot}\\node_modules\\.bin\\electron.cmd`, [`${appRoot}\\index.js`]);
+        child_process.spawn(electronPath, [indexJsPath]);
         return;
     }
 

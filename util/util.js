@@ -6,3 +6,7 @@ function areAllValuesFalse(obj) {
     }
     return true;
 }
+
+module.exports = {
+    areAllValuesFalse
+}

@@ -13,7 +13,7 @@ function createWindow() {
     height: 600,
     resizable: true,
   });
-  win.loadFile("gui/index.html");
+  win.loadFile("index.html");
   win.setMenu(null);
 }
 
