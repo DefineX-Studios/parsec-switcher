@@ -20,9 +20,12 @@
   "author": "Shamuwel Ahmed",
   "license": "ISC",
   "dependencies": {
+    "await-timeout": "^1.1.1",
     "child_process": "^1.0.2",
     "docopt": "^0.6.2",
     "mongodb": "^5.6.0",
+    "p-wait-for": "3.2.0",
+    "pino": "^8.15.0",
     "process": "^0.11.10",
     "rimraf": "^5.0.1",
     "sync-sleep": "^1.0.0"
