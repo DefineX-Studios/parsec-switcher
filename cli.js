@@ -4,18 +4,8 @@ const {global_state,initialize} = require("./lib/initialize")
 const child_process = require('child_process');
 const docopt = require('docopt').docopt;
 const appRoot = require('app-root-path');
-
-//todo move this in utils
-function areAllValuesFalse(obj) {
-    for (const value of Object.values(obj)) {
-        if (value) {
-            return false;
-        }
-    }
-    return true;
-}
-
-
+const packageJSON = require('./package.json')
+const {error, errorToMessage} = require("./lib/error");
 const doc = `
 Parsec Account Switcher
 
@@ -27,7 +17,6 @@ Usage:
   parsec-switcher -l | --list
   parsec-switcher -h | --help
   parsec-switcher setup <parsecdLocation>
-  parsec-switcher changeDefault <nickname>
   parsec-switcher --version
 
 Options:
@@ -35,38 +24,54 @@ Options:
   --version     Show version.
 `;
 
-function main(){
-    const options = docopt(doc, { version: '0.0.1' });
+/**
+ *
+ * @returns {errorCode}
+ */
+async function main(){
+    const options = docopt(doc, { version: packageJSON.version });
 
     if(areAllValuesFalse(options)){
         child_process.spawn(`${appRoot}\\node_modules\\.bin\\electron.cmd`, [`${appRoot}\\index.js`]);
         return;
     }
 
-    initialize();
-    if(!global_state.config["parsecdFound"]){
-        console.log("Parsecd not found, run \"parsec-switcher setup <parsecdLocation>\" ")
+    let error1 = await initialize()
+    if (error1){
+        return error1
     }
-    else {
-        if (options['-a'] || options['--add']){
-            console.log(`Adding ${options['<nickname>']}`);
-            addAccount(options['<nickname>']);
-        }
-        else if (options['-d'] || options['--delete']){
-            console.log(` Deleting account ${options['<nickname>']}`);
-            deleteAccount(options['<nickname>']);
-        }
-        else if (options['-s'] || options['--switch']){
-            console.log(`Switching account to ${options['<nickname>']}`);
-            switchAccount(options['<nickname>'])
+    if(!global_state.flags.parsecDataLocationFound){
+        return error.PARSEC_NOT_INSTALLED
+    }
+    if(!global_state.flags.parsecdFound){
+        return error.PARSECD_NOT_IN_DEFAULT
+    }
+    if (options['-a'] || options['--add']) {
+        console.log(`Adding ${options['<nickname>']}`);
+        return addAccount(options['<nickname>']);
+    }
+    if (options['-d'] || options['--delete']){
+        console.log(` Deleting account ${options['<nickname>']}`);
+       return deleteAccount(options['<nickname>']);
 
-        }
-        else if (options['-l'] || options['--list']){
-            console.log('Printing the list ')
-            list = returnAccountList()
-            console.log(list)
-        }
     }
+    if (options['-s'] || options['--switch']) {
+        console.log(`Switching account to ${options['<nickname>']}`);
+        return switchAccount(options['<nickname>'])
+    }
+    if (options['-l'] || options['--list']){
+        console.log('Printing the list ')
+        console.log(returnAccountList())
+        return error.SUCCESS
+    }
+    if(options['setup']){
+        global_state.config.parsecdLocation = options['<parsecdLocation>']
+    }
+    return error.SUCCESS
 }
 
-main();
+async function runProg(){
+    const code = await main()
+    console.log(errorToMessage[code])
+}
+runProg()
