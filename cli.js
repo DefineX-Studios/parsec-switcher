@@ -34,7 +34,7 @@ async function main(){
 
     if(areAllValuesFalse(options)){
         child_process.spawn(electronPath, [indexJsPath]);
-        return;
+        return error.SUCCESS;
     }
 
     let error1 = await initialize()
