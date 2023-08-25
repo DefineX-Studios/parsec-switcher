@@ -62,4 +62,19 @@ function generate_text_input_popup(placeholder, submit_text_button){
 `
 }
 
-module.exports = {generate_user_card, generate_yes_no_popup, generate_text_input_popup}
+function generate_toast(title,description){
+    return `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+        <i class="fa fa-exclamation-circle" style="color: #ff0000;font-size: 1.5em;padding-right: 5px"></i>
+        <strong class="me-auto">${title}</strong>
+        <small>now</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+        ${description}
+    </div>
+  </div>
+  </div>`;
+}
+
+module.exports = {generate_user_card, generate_yes_no_popup, generate_text_input_popup, generate_toast}

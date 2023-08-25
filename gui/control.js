@@ -2,6 +2,8 @@ const PSS = require("../lib/account-handler");
 const templates = require("./template");
 const {global_state} = require("../lib/initialize");
 const {initialize} = require("../lib/initialize");
+const {generate_toast} = require("./template");
+const {errorToMessage} = require("../lib/error");
 
 const accountsContainer = document.getElementById('accounts-container');
 const addAccountButton = document.getElementById('add-account-btn');
@@ -50,7 +52,9 @@ async function showTextInputPopup(placeholder, submit_text_button){
 async function addButtonPressed(){
     const nickname = await showTextInputPopup("Enter Nickname", "Add Account");
     if(!nickname) return;
-    await PSS.addAccount(nickname);
+    const error = await PSS.addAccount(nickname);
+    if(!error) return;
+    showToast("Error!", errorToMessage[error])
 }
 
 function render(){
@@ -71,22 +75,60 @@ function render(){
         // Deleting User Profile
         document.getElementById(`switch-btn-${nickname}`).addEventListener('click',async function(){
             console.log(`switching ${nickname}`)
-            await PSS.switchAccount(nickname);
+            const error = await PSS.switchAccount(nickname);
+            if(!error) return;
+            showToast("Error!", errorToMessage[error])
         });
 
         document.getElementById(`delete-btn-${nickname}`).addEventListener('click',async function(){
             const agreed = await showYesNoPopup(`Are you sure you want to delete ${nickname} account?`, "Cancel", "Delete Account");
             if(!agreed) return;
             console.log(`deleting ${nickname}`)
-            await PSS.deleteAccount(nickname);
+            const error = await PSS.deleteAccount(nickname);
+            if(!error) return;
+            showToast("Error!", errorToMessage[error])
         });
     }
 }
 
 async function main(){
     const error = await initialize();
+    //todo not sure what to do with this error, if initialize doesn't work, app wouldn't work at all
     global_state.onConfigChanged.push(render);
     addAccountButton.addEventListener('click', addButtonPressed);
     render();
 }
+
+function showToast(title,description){
+    const container = document.getElementById("toast-container");
+    container.innerHTML = container.innerHTML + generate_toast(title,description);
+
+    const toastElList = document.querySelectorAll(".toast");
+    console.log(toastElList.length);
+    toastElList.forEach((toastEl) => {
+        const inst = bootstrap.Toast.getOrCreateInstance(toastEl, {
+            //animation:false // fix the issue because no delay in queueCallback
+        });
+        inst.show();
+
+        toastEl.addEventListener(
+            "hide.bs.toast",
+            () => {
+            });
+        toastEl.addEventListener(
+            "hidden.bs.toast",
+            () => {
+                inst.dispose();
+                toastEl.remove();
+            },
+            {
+                once: true
+            }
+        );
+
+
+
+    });
+}
+// document.addEventListener("DOMContentLoaded", main);
 main();
