@@ -3,7 +3,7 @@ const templates = require("./template");
 const {global_state} = require("../lib/initialize");
 const {initialize} = require("../lib/initialize");
 const {generate_toast} = require("./template");
-const {errorToMessage} = require("../lib/error");
+const {errorToMessage, error} = require("../lib/error");
 
 const accountsContainer = document.getElementById('accounts-container');
 const addAccountButton = document.getElementById('add-account-btn');
@@ -49,6 +49,29 @@ async function showTextInputPopup(placeholder, submit_text_button){
     });
 }
 
+function showToast(title,description){
+    const container = document.getElementById("toast-container");
+    container.innerHTML = container.innerHTML + generate_toast(title,description);
+
+    const toastElList = document.querySelectorAll(".toast");
+    console.log(toastElList.length);
+    toastElList.forEach((toastEl) => {
+        const inst = bootstrap.Toast.getOrCreateInstance(toastEl, {
+            //animation:false // fix the issue because no delay in queueCallback
+        });
+        inst.show();
+
+        toastEl.addEventListener("hide.bs.toast", () => {});
+        toastEl.addEventListener("hidden.bs.toast",
+            () => {
+                inst.dispose();
+                toastEl.remove();
+            },
+            {once: true}
+        );
+    });
+}
+
 async function addButtonPressed(){
     const nickname = await showTextInputPopup("Enter Nickname", "Add Account");
     if(!nickname) return;
@@ -64,7 +87,6 @@ function render(){
     const accountsDiv = document.createElement('div');
     accountsDiv.classList.add('accounts-list');
     accountsContainer.appendChild(accountsDiv);
-
 
     const {accounts, currentUser} = PSS.returnAccountList();
     console.log(JSON.stringify(accounts));
@@ -92,43 +114,13 @@ function render(){
 }
 
 async function main(){
-    const error = await initialize();
-    //todo not sure what to do with this error, if initialize doesn't work, app wouldn't work at all
+    const errorCode = await initialize();
+    if(errorCode) showToast("Error!", errorToMessage[errorCode]);
+    if(!global_state.flags.parsecDataLocationFound) showToast("Error!", errorToMessage[error.PARSEC_NOT_INSTALLED])
+    if(!global_state.flags.parsecdFound) showToast("Error!", error.PARSECD_NOT_IN_DEFAULT);
+
     global_state.onConfigChanged.push(render);
     addAccountButton.addEventListener('click', addButtonPressed);
     render();
 }
-
-function showToast(title,description){
-    const container = document.getElementById("toast-container");
-    container.innerHTML = container.innerHTML + generate_toast(title,description);
-
-    const toastElList = document.querySelectorAll(".toast");
-    console.log(toastElList.length);
-    toastElList.forEach((toastEl) => {
-        const inst = bootstrap.Toast.getOrCreateInstance(toastEl, {
-            //animation:false // fix the issue because no delay in queueCallback
-        });
-        inst.show();
-
-        toastEl.addEventListener(
-            "hide.bs.toast",
-            () => {
-            });
-        toastEl.addEventListener(
-            "hidden.bs.toast",
-            () => {
-                inst.dispose();
-                toastEl.remove();
-            },
-            {
-                once: true
-            }
-        );
-
-
-
-    });
-}
-// document.addEventListener("DOMContentLoaded", main);
 main();
