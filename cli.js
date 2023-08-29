@@ -4,6 +4,7 @@ const {global_state,initialize} = require("./lib/initialize")
 const packageJSON = require('./package.json')
 const {error, errorToMessage} = require("./lib/error");
 const docopt = require('docopt').docopt;
+const {checkAdmin} = require("./lib/process-handler")
 const doc = `
 Parsec Account Switcher
 
@@ -37,6 +38,9 @@ async function main(){
     }
     if(!global_state.flags.parsecdFound){
         return error.PARSECD_NOT_IN_DEFAULT
+    }
+    if (!await checkAdmin()){
+        return error.ADMIN_REQUIRED
     }
     if (options['-a'] || options['--add']){
 
