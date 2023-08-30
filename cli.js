@@ -2,11 +2,12 @@
 const {addAccount,deleteAccount,returnAccountList, switchAccount} = require('./lib/account-handler')
 const {global_state,initialize} = require("./lib/initialize")
 const child_process = require('child_process');
-const docopt = require('docopt').docopt;
 const packageJSON = require('./package.json')
 const {error, errorToMessage} = require("./lib/error");
 const {indexJsPath, electronPath} = require("./lib/constants");
 const {areAllValuesFalse} = require("./util/util");
+const docopt = require('docopt').docopt;
+const {checkAdmin} = require("./lib/process-handler")
 const doc = `
 Parsec Account Switcher
 
@@ -47,14 +48,17 @@ async function main(){
     if(!global_state.flags.parsecdFound){
         return error.PARSECD_NOT_IN_DEFAULT
     }
-    if (options['-a'] || options['--add']) {
+    if (!await checkAdmin()){
+        return error.ADMIN_REQUIRED
+    }
+
+    if (options['-a'] || options['--add']){
         console.log(`Adding ${options['<nickname>']}`);
         return addAccount(options['<nickname>']);
     }
     if (options['-d'] || options['--delete']){
         console.log(` Deleting account ${options['<nickname>']}`);
-       return deleteAccount(options['<nickname>']);
-
+        return deleteAccount(options['<nickname>']);
     }
     if (options['-s'] || options['--switch']) {
         console.log(`Switching account to ${options['<nickname>']}`);
