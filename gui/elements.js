@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedReference
+
 const templates = require("./template");
 
 async function showYesNoPopup(description, negative_text, positive_text){
