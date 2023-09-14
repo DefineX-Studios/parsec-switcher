@@ -5,6 +5,8 @@ const {initialize} = require("../lib/initialize");
 const {errorToMessage, error} = require("../lib/error");
 const {showToast, showYesNoPopup, showTextInputPopup} = require("./elements");
 
+
+
 const accountsContainer = document.getElementById('accounts-container');
 const addAccountButton = document.getElementById('add-account-btn');
 
@@ -50,6 +52,7 @@ function render(){
 }
 
 async function main(){
+    // showToast(process.argv[1])
     const errorCode = await initialize();
     if(errorCode) showToast("Error!", errorToMessage[errorCode]);
     if(!global_state.flags.parsecDataLocationFound) showToast("Error!", errorToMessage[error.PARSEC_NOT_INSTALLED])
