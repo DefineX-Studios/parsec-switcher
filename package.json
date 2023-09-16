@@ -27,7 +27,7 @@
   },
   "build": {
     "appId": "com.example.parsec-switcher",
-    "productName": "Parsec Switcher",
+    "productName": "ParsecSwitcher",
     "directories": {
       "output": "dist"
     },

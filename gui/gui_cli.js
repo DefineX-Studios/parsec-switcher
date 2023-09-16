@@ -53,6 +53,15 @@ async function cli(){
             // console.log(`Deleting account ${username}`)
             opFlag = await deleteAccount(username)
         });
+    program.command('setLoc')
+        .description('Manually set the location of parsec installation')
+        .argument('<parsecInstallDir>','Parsec Installation Directory')
+        .action(async (parsecInstallDir,options)=>{
+            // console.log(`Deleting account ${username}`)
+            let parsecdLoc = path.join(parsecInstallDir,'parsecd.exe')
+            global_state.locations['parsecdLocation'] = parsecdLoc
+            opFlag = 0
+        });
 
     await program.parseAsync();
     return opFlag
