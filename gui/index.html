@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Parsec Switcher</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+
+  <header>
+    <nav class="navbar navbar-expand-lg mynav">
+      <div class="container-fluid">
+        <h6>Parsec Account Switcher</h6>
+      </div>
+    </nav>
+  </header>
+
+
+  <!-- Home Page   -->
+  <div class="container">
+    <div class="content">
+      <h1 class="heading">
+        <span style="color: #f50049;">Switch Accounts With<br>
+          Absolute Ease</span>
+      </h1>
+      <p>Simplify your experience, amplify your productivity.</p>
+      <button class="main-btn" id="add-account-btn"><i class="fa fa-user-plus"></i> Add
+        Parsec Account</button>
+    </div>
+  </div>
+
+  <!-- popups go here -->
+  <div id="popup-div"></div>
+
+  <!-- User Accounts List -->
+  <div id="accounts-container"></div>
+
+  <!-- toast -->
+  <div id="toast-container" class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index:99999999999">></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+  <script src="control.js"></script>
+</body>
+
+</html>

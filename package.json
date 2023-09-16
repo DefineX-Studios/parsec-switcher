@@ -1,30 +1,47 @@
 {
   "name": "parsec-switcher",
-  "version": "0.0.9",
+  "version": "0.0.1",
   "description": "Allows for keeping multiple parsec accounts and switch between them",
-  "main": "cli.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "gui/gui_cli.js",
   "bin": {
-    "parsec-switcher": "cli.js"
+    "parsec-switcher": "gui_cli.js"
   },
-  "files": [
-    "/",
-    "!.gitignore",
-    "!.idea",
-    "!.git",
-    "!test.txt"
-  ],
   "keywords": [],
-  "author": "Shamuwel Ahmed",
+  "author": "DefineX Studios",
   "license": "ISC",
   "dependencies": {
     "await-timeout": "^1.1.1",
     "child_process": "^1.0.2",
-    "docopt": "^0.6.2",
+    "commander": "^11.0.0",
+    "electron-packager": "^17.1.2",
+    "electron-unhandled": "^4.0.1",
     "pino": "^8.15.0",
     "process": "^0.11.10",
     "rimraf": "^5.0.1"
+  },
+  "devDependencies": {
+    "@electron/remote": "^2.0.10",
+    "electron": "^25.5.0",
+    "electron-builder": "^24.6.4",
+    "electron-rebuild": "^3.2.9"
+  },
+  "build": {
+    "appId": "com.example.parsec-switcher",
+    "productName": "ParsecSwitcher",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "requestedExecutionLevel": "requireAdministrator"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "scripts": {
+    "postinstall": "electron-builder install-app-deps"
   }
 }
