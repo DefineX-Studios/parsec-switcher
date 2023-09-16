@@ -1,6 +1,6 @@
 {
   "name": "parsec-switcher",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Allows for keeping multiple parsec accounts and switch between them",
   "main": "gui/gui_cli.js",
   "bin": {
@@ -8,13 +8,14 @@
   },
   "keywords": [],
   "author": "DefineX Studios",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "await-timeout": "^1.1.1",
     "child_process": "^1.0.2",
     "commander": "^11.0.0",
     "electron-packager": "^17.1.2",
     "electron-unhandled": "^4.0.1",
+    "electron-updater": "^6.1.4",
     "pino": "^8.15.0",
     "process": "^0.11.10",
     "rimraf": "^5.0.1"
@@ -26,7 +27,7 @@
     "electron-rebuild": "^3.2.9"
   },
   "build": {
-    "appId": "com.example.parsec-switcher",
+    "appId": "com.definex.parsec-switcher",
     "productName": "ParsecSwitcher",
     "directories": {
       "output": "dist"
@@ -43,5 +44,9 @@
   },
   "scripts": {
     "postinstall": "electron-builder install-app-deps"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DefineX-Studios/parsec-account-switcher"
   }
 }
