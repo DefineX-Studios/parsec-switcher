@@ -1,9 +1,11 @@
 # parsec-account-switcher
 
-Allows for switching multiple parsec account as and when needed, still work in progress.
+Allows for addition of multiple parsec accounts and switching between them without logging out/ logging in, making the experience as seemless as possible.
 
 # Installation:
-**From source :**
+## From release:
+Download the latest release and run the installer.
+## From source:
 1. Clone the repo
 ```shell
 git clone https://github.com/DefineX-Studios/parsec-account-switcher.git
@@ -25,7 +27,8 @@ npm install
     ```shell
     npx electron .
     ```
-5. Build the app using electron-builder.
+### OR
+4. Build the app using electron-builder.
 In the root directory, run
 ```shell
 npx electron-builder
@@ -33,7 +36,7 @@ npx electron-builder
 
 5. Run the installer in dist folder
 # Usage:
-**After building :**
+## After building:
 ### Gui:
 Double click on exe.
 ### Cli:
@@ -45,3 +48,4 @@ For list of commands:
 ```shell
 .\ParsecSwitcher.exe -h
 ```
+
