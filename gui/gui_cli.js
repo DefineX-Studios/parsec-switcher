@@ -1,10 +1,10 @@
-const { app,dialog, BrowserWindow} = require("electron");
+const { app, BrowserWindow} = require("electron");
 const path = require("path");
 const {addAccount,deleteAccount,returnAccountList, switchAccount} = require('../lib/account-handler')
 const {initialize, global_state} = require("../lib/initialize");
 const {program}  = require('commander')
 const {error,errorToMessage} = require("../lib/error");
-const package = require('../package.json')
+const packageVals = require('../package.json')
 
 async function cli(){
     let error1 = await initialize()
@@ -21,7 +21,7 @@ async function cli(){
     program
         .name('parsec-switcher-cli')
         .description('CLI to Parsec Switcher functions')
-        .version(package.version);
+        .version(packageVals.version);
 
     program.command('list')
         .description('List the existing accounts')
@@ -58,8 +58,7 @@ async function cli(){
         .argument('<parsecInstallDir>','Parsec Installation Directory')
         .action(async (parsecInstallDir,options)=>{
             // console.log(`Deleting account ${username}`)
-            let parsecdLoc = path.join(parsecInstallDir,'parsecd.exe')
-            global_state.locations['parsecdLocation'] = parsecdLoc
+            global_state.locations['parsecdLocation'] = path.join(parsecInstallDir, 'parsecd.exe')
             opFlag = 0
         });
 
