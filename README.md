@@ -8,12 +8,40 @@ Allows for switching multiple parsec account as and when needed, still work in p
 ```shell
 git clone https://github.com/DefineX-Studios/parsec-account-switcher.git
 ```
-2. Run through node
+2. Install all dependencies
 ```shell
-node .
+npm install
+```
+3. Run from source:
+    1. Inside gui folder, open gui_cli.js and inside the main function change
+    ```javascript
+    process.argv.length > 1
+    ```
+    To:
+    ```javascript
+    process.argv.length > 2
+    ```
+    2. Run through electron
+    ```shell
+    npx electron .
+    ```
+5. Build the app using electron-builder.
+In the root directory, run
+```shell
+npx electron-builder
 ```
 
-**From npm :**
+5. Run the installer in dist folder
+# Usage:
+**After building :**
+### Gui:
+Double click on exe.
+### Cli:
+In powershell where ParsecSwitcher.exe is located:
 ```shell
-npm install parsec-switcher
+.\ParsecSwitcher.exe <command>
+```
+For list of commands: 
+```shell
+.\ParsecSwitcher.exe -h
 ```
