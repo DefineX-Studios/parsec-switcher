@@ -13,6 +13,7 @@
     "await-timeout": "^1.1.1",
     "child_process": "^1.0.2",
     "commander": "^11.0.0",
+    "electron-is-dev": "^2.0.0",
     "electron-packager": "^17.1.2",
     "electron-unhandled": "^4.0.1",
     "electron-updater": "^6.1.4",
@@ -23,8 +24,7 @@
   "devDependencies": {
     "@electron/remote": "^2.0.10",
     "electron": "^25.5.0",
-    "electron-builder": "^24.6.4",
-    "electron-rebuild": "^3.2.9"
+    "electron-builder": "^24.6.4"
   },
   "build": {
     "appId": "com.definex.parsec-switcher",

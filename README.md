@@ -31,6 +31,7 @@ npm install
 4. Build the app using electron-builder.
 In the root directory, run
 ```shell
+yarn add electron-builder --dev
 npx electron-builder
 ```
 

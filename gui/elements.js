@@ -46,7 +46,7 @@ function showToast(title,description){
     container.innerHTML = container.innerHTML + templates.generate_toast(title,description);
 
     const toastElList = document.querySelectorAll(".toast");
-    console.log(toastElList.length);
+    logger.debug(toastElList.length);
     toastElList.forEach((toastEl) => {
         const inst = bootstrap.Toast.getOrCreateInstance(toastEl, {
             //animation:false // fix the issue because no delay in queueCallback
