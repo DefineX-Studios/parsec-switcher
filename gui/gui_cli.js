@@ -5,8 +5,12 @@ const {initialize, global_state} = require("../lib/initialize");
 const {program}  = require('commander')
 const {error,errorToMessage} = require("../lib/error");
 const packageVals = require('../package.json')
+const {beforeQuit} = require("../lib/before-quit")
+const isDev = require('electron-is-dev');
+const {logger} = require('../lib/logger')
 
 async function cli(){
+
     let error1 = await initialize()
     if (error1){
         return error1
@@ -25,8 +29,8 @@ async function cli(){
 
     program.command('list')
         .description('List the existing accounts')
-        .action((str, options) => {
-            console.log(returnAccountList())
+        .action(async (str, options) => {
+            logger.info(returnAccountList())
             opFlag = 0
         });
 
@@ -34,7 +38,7 @@ async function cli(){
         .description('Add account with the given username')
         .argument('<username>','Username to add')
         .action(async (username,options)=>{
-            // console.log(`Adding account ${username}`)
+            logger.info(`Adding account ${username}`)
             opFlag = await addAccount(username)
         });
 
@@ -42,7 +46,7 @@ async function cli(){
         .description('Switch account with the given username')
         .argument('<username>','Username to add')
         .action(async (username,options)=>{
-            // console.log(`Switching account ${username}`)
+            logger.info(`Switching account ${username}`)
             opFlag = await switchAccount(username)
         });
 
@@ -50,14 +54,14 @@ async function cli(){
         .description('Delete account with the given username')
         .argument('<username>','Username to add')
         .action(async (username,options)=>{
-            // console.log(`Deleting account ${username}`)
+            logger.info(`Deleting account ${username}`)
             opFlag = await deleteAccount(username)
         });
     program.command('setLoc')
         .description('Manually set the location of parsec installation')
         .argument('<parsecInstallDir>','Parsec Installation Directory')
         .action(async (parsecInstallDir,options)=>{
-            // console.log(`Deleting account ${username}`)
+            // logger.debug(`Deleting account ${username}`)
             global_state.locations['parsecdLocation'] = path.join(parsecInstallDir, 'parsecd.exe')
             opFlag = 0
         });
@@ -69,6 +73,7 @@ async function cli(){
 async function gui(){
     app.whenReady().then(createWindow);
 
+
     function createWindow() {
         const win = new BrowserWindow({
             webPreferences: {
@@ -79,15 +84,18 @@ async function gui(){
             height: 600,
             resizable: true,
         });
+        win.isDev = isDev
         const indexPath = path.join(__dirname,'index.html')
+
         win.loadFile(indexPath);
-        win.setMenu(null);
+        // win.setMenu(null);
     }
+
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-    app.on('window-all-closed', () => {
+    app.on('window-all-closed', async () => {
         if (process.platform !== 'darwin') {
             app.quit();
         }
@@ -101,14 +109,19 @@ async function gui(){
 }
 
 async function main(){
+    // console.log(process.env.PARSEC_SWITCHER_DEBUG)
+    const argumentCondition = isDev ? process.argv.length > 2 : process.argv.length > 1
+
+    // logger.debug(process.env)
   //For dev set it to 2, for prod, set to 1
-  if (process.argv.length > 1) {
+  if (argumentCondition) {
       let op = await cli()
-      // console.log(op)
+      // logger.debug(op)
       if (op){
-          console.log(errorToMessage[op])
+          logger.info(errorToMessage[op])
       }
-      await app.quit()
+      await beforeQuit()
+      app.quit()
 
   }
   else{
