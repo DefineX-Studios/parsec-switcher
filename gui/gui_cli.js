@@ -88,7 +88,10 @@ async function gui(){
         const indexPath = path.join(__dirname,'index.html')
 
         win.loadFile(indexPath);
-        // win.setMenu(null);
+        if(!process.env.PARSEC_SWITCHER_DEBUG){
+            win.setMenu(null);
+
+        }
     }
 
 
