@@ -88,10 +88,7 @@ async function gui(){
         const indexPath = path.join(__dirname,'index.html')
 
         win.loadFile(indexPath);
-        if(!process.env.PARSEC_SWITCHER_DEBUG){
-            win.setMenu(null);
-
-        }
+        if(!isDev) win.setMenu(null);
     }
 
 
@@ -112,12 +109,11 @@ async function gui(){
 }
 
 async function main(){
-    // console.log(process.env.PARSEC_SWITCHER_DEBUG)
-    const argumentCondition = isDev ? process.argv.length > 2 : process.argv.length > 1
+    //in dev 1 additional are passed compared to pro which is needed to be ignored
+    const runCli = isDev ? process.argv.length > 2 : process.argv.length > 1
 
     // logger.debug(process.env)
-  //For dev set it to 2, for prod, set to 1
-  if (argumentCondition) {
+  if (runCli) {
       let op = await cli()
       // logger.debug(op)
       if (op){
@@ -125,7 +121,6 @@ async function main(){
       }
       await beforeQuit()
       app.quit()
-
   }
   else{
       await gui()
