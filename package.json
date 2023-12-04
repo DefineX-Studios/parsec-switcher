@@ -29,6 +29,7 @@
   "build": {
     "appId": "com.definex.parsec-switcher",
     "productName": "ParsecSwitcher",
+    "artifactName": "${productName}-Setup.${ext}",
     "directories": {
       "output": "dist"
     },
