@@ -90,9 +90,8 @@ async function gui(){
         RemoteMain.initialize();
         RemoteMain.enable(win.webContents);
         win.isDev = isDev
-        const indexPath = path.join(__dirname,'index.html')
 
-        win.loadFile(indexPath);
+        win.loadFile(htmlPath);
         if(!isDev) win.setMenu(null);
     }
 
