@@ -6,8 +6,11 @@ const {program}  = require('commander')
 const {error,errorToMessage} = require("../lib/error");
 const packageVals = require('../package.json')
 const {beforeQuit} = require("../lib/before-quit")
-const isDev = require('electron-is-dev');
 const {logger} = require('../lib/logger')
+const {htmlPath} = require("../lib/constants");
+const RemoteMain = require('@electron/remote/main');
+
+const isDev = !app.isPackaged;
 
 async function cli(){
 
@@ -84,6 +87,8 @@ async function gui(){
             height: 600,
             resizable: true,
         });
+        RemoteMain.initialize();
+        RemoteMain.enable(win.webContents);
         win.isDev = isDev
         const indexPath = path.join(__dirname,'index.html')
 

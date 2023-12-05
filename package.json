@@ -19,12 +19,13 @@
     "electron-updater": "^6.1.4",
     "pino": "^8.15.0",
     "process": "^0.11.10",
-    "rimraf": "^5.0.1"
+    "rimraf": "^5.0.1",
+    "@electron/remote": "^2.1.0"
   },
   "devDependencies": {
-    "@electron/remote": "^2.0.10",
     "electron": "^25.5.0",
-    "electron-builder": "^24.6.4"
+    "electron-builder": "^24.6.4",
+    "electron-rebuild": "^3.2.9"
   },
   "build": {
     "appId": "com.definex.parsec-switcher",
