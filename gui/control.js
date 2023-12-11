@@ -69,3 +69,12 @@ async function main(){
     addAccountButton.addEventListener('click', addButtonPressed);
     render();
 }
+
+const {
+    shell
+  } = require('electron');
+
+  function openLinkInDefaultBrowser() {
+    // Replace the URL with the link you want to open
+    shell.openExternal(' https://definex.in/discord');
+  }
