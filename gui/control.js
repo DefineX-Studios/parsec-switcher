@@ -36,7 +36,9 @@ function render() {
     accountsDiv.classList.add('accounts-list');
     accountsContainer.appendChild(accountsDiv);
 
-    const { accounts, currentUser } = PSS.returnAccountList();
+    const state = PSS.returnAccountList();
+    const {accounts, currentUser} = state;
+
     logger.debug(JSON.stringify(accounts));
     for (const nickname of accounts) {
         const userCardString = templates.generate_user_card(nickname, nickname === currentUser);
