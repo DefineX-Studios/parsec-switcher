@@ -10,7 +10,7 @@ function generate_user_card(userNickname, isCurrent){
             
             <h6 class="text-center">${userNickname}</h6>
             
-            <button class="btn" id="switch-btn-${userNickname}"><i class="fa fa-repeat"></i></button>
+            <button class="btn" id="switch-btn-${userNickname}"><i class="fa-solid  ${isCurrent?'fa-toggle-on':'fa-toggle-off'}"></i></button>
             <button class="btn" id="delete-btn-${userNickname}"><i class="fa fa-trash"></i></button>
             <i class="fa fa-check" ${isCurrent?"":"hidden"}></i>
         </div>
