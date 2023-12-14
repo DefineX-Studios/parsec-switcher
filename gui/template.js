@@ -3,7 +3,8 @@ function generate_user_card(userNickname, isCurrent){
     return`
     <div id="card-${userNickname}" >
         <!-- card -->
-        <div class="user-card active">
+        
+        <div class="user-card active" id="nick-${userNickname}">
             <div class="profile-img">
               <img src="./images/user.png">
             </div>

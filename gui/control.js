@@ -48,8 +48,18 @@ function render() {
             const error = await PSS.switchAccount(nickname);
             if (!error) return;
             showToast("Error!", errorToMessage[error])
-        });
+            
+            });
 
+        document.getElementById(`nick-${nickname}`).addEventListener('dblclick', async function () {
+            logger.debug(`switching ${nickname}`)
+            const error = await PSS.switchAccount(nickname);
+            if (!error) return;
+            showToast("Error!", errorToMessage[error])
+            
+        });
+        
+       
         document.getElementById(`delete-btn-${nickname}`).addEventListener('click', async function () {
             const agreed = await showYesNoPopup(`Are you sure you want to delete ${nickname} account?`, "Cancel", "Delete Account");
             if (!agreed) return;
