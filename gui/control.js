@@ -28,6 +28,13 @@ async function addButtonPressed() {
 function openLinkInDefaultBrowser() {
     shell.openExternal(' https://definex.in/discord');
 }
+async function switchaccounts(nickname) {
+    logger.debug(`switching ${nickname}`)
+    const error = await PSS.switchAccount(nickname);
+    if (!error) return;
+    showToast("Error!", errorToMessage[error])
+    
+    }
 function render() {
     logger.debug("rendering");
 
@@ -43,20 +50,12 @@ function render() {
         accountsDiv.insertAdjacentHTML('beforeend', userCardString);
 
         // Deleting User Profile
-        document.getElementById(`switch-btn-${nickname}`).addEventListener('click', async function () {
-            logger.debug(`switching ${nickname}`)
-            const error = await PSS.switchAccount(nickname);
-            if (!error) return;
-            showToast("Error!", errorToMessage[error])
-            
-            });
+        document.getElementById(`switch-btn-${nickname}`).addEventListener('click', function(){
+            switchaccounts(nickname);
+        });
 
-        document.getElementById(`nick-${nickname}`).addEventListener('dblclick', async function () {
-            logger.debug(`switching ${nickname}`)
-            const error = await PSS.switchAccount(nickname);
-            if (!error) return;
-            showToast("Error!", errorToMessage[error])
-            
+        document.getElementById(`nick-${nickname}`).addEventListener('dblclick', function () {
+            switchaccounts(nickname);
         });
         
        

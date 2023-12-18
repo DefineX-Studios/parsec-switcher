@@ -150,6 +150,7 @@ input{
   display: flex;
   justify-content: center;
   padding: 15px;
+  user-select: none;
 }
 .profile-img img{
   width: 100px;
@@ -157,6 +158,11 @@ input{
   border-radius: 50%;
   height: 100px;
 } 
+.profile-img:focus {
+  outline: none; /* Remove default outline on focus */
+  /* Add your custom focus styles here, for example: */
+  border: 2px solid red;
+}
 
 .user-card h6 {
   margin: 0;
@@ -178,6 +184,7 @@ input{
 }
 .user-card .btn:hover{
   color: var(--secondary-color);
+  outline:none;
 }
 
 
