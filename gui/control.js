@@ -20,25 +20,21 @@ window.addEventListener('DOMContentLoaded', main)
 
 const loadingMessage = document.getElementById('loading-message');
 const loadingOverlay = document.getElementById('loading-overlay');
+const showOverlay =false;
 
-function showLoadingOverlay() {
-  loadingOverlay.style.display = 'flex';
+function setLoadingOverlayVisibility(showOverlay) {
+     loadingOverlay.style.display = showOverlay ? 'flex' : 'none';
 }
-
-function hideLoadingOverlay() {
-  loadingOverlay.style.display = 'none';
-}
-
 async function addButtonPressed() {
   try {
-    showLoadingOverlay(); // Show loading overlay before the action starts
+    setLoadingOverlayVisibility(true); // Show loading overlay before the action starts
     const nickname = await showTextInputPopup("Enter Nickname", "Add Account");
     if (!nickname) return;
     const error = await PSS.addAccount(nickname);
     if (!error) return;
     showToast("Error!", errorToMessage[error]);
   } finally {
-    hideLoadingOverlay(); // Hide loading overlay after the action completes (whether successful or not)
+     setLoadingOverlayVisibility();// Hide loading overlay after the action completes (whether successful or not)
   }
 }
 function openLinkInDefaultBrowser() {
@@ -48,13 +44,13 @@ function openLinkInDefaultBrowser() {
 
 async function switchaccounts(nickname) {
   try {
-    showLoadingOverlay(); // Show loading overlay before the action starts
+    setLoadingOverlayVisibility(true); // Show loading overlay before the action starts
     logger.debug(`switching ${nickname}`);
     const error = await PSS.switchAccount(nickname);
     if (!error) return;
     showToast("Error!", errorToMessage[error]);
   } finally {
-    hideLoadingOverlay(); // Hide loading overlay after the action completes (whether successful or not)
+    setLoadingOverlayVisibility(); // Hide loading overlay after the action completes (whether successful or not)
   }
 }
 
@@ -95,7 +91,7 @@ function render() {
 }
 async function main() {
   try {
-    showLoadingOverlay(); // Show loading overlay before the initialization process
+    setLoadingOverlayVisibility(true); // Show loading overlay before the initialization process
     const errorCode = await initialize();
     logger.debug("initializing");
     if (errorCode) showToast("Error!", errorToMessage[errorCode]);
@@ -107,6 +103,6 @@ async function main() {
     addAccountButton.addEventListener('click', addButtonPressed);
     render();
   } finally {
-    hideLoadingOverlay(); // Hide loading overlay after the initialization process completes
+    setLoadingOverlayVisibility();// Hide loading overlay after the initialization process completes
   }
 }
