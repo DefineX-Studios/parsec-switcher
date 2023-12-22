@@ -17,7 +17,12 @@ const addAccountButton = document.getElementById('add-account-btn');
 window.addEventListener('unload', beforeQuit)
 window.addEventListener('DOMContentLoaded', main)
 
-
+async function switchAccountHandler(nickname) {
+    logger.debug(`switching ${nickname}`)
+    const error = await PSS.switchAccount(nickname);
+    if (!error) return;
+    showToast("Error!", errorToMessage[error])
+};
 async function addButtonPressed() {
     const nickname = await showTextInputPopup("Enter Nickname", "Add Account");
     if (!nickname) return;
@@ -43,14 +48,15 @@ function render() {
         accountsDiv.insertAdjacentHTML('beforeend', userCardString);
 
         // Deleting User Profile
-        document.getElementById(`switch-btn-${nickname}`).addEventListener('click', async function () {
-            logger.debug(`switching ${nickname}`)
-            const error = await PSS.switchAccount(nickname);
-            if (!error) return;
-            showToast("Error!", errorToMessage[error])
-        });
+        document.getElementById(`switch-btn-${nickname}`).addEventListener('click', async function(){
+            await switchAccountHandler(nickname);
+        }); 
 
-        document.getElementById(`delete-btn-${nickname}`).addEventListener('click', async function () {
+        document.getElementById(`nick-${nickname}`).addEventListener('dblclick', async function () {
+            await switchAccountHandler(nickname);
+        });
+        
+         document.getElementById(`delete-btn-${nickname}`).addEventListener('click', async function () {
             const agreed = await showYesNoPopup(`Are you sure you want to delete ${nickname} account?`, "Cancel", "Delete Account");
             if (!agreed) return;
             logger.debug(`deleting ${nickname}`)
