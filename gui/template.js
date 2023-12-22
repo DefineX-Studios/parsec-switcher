@@ -1,21 +1,22 @@
 function generate_user_card(userNickname, isCurrent){
-    //todo make the popup generalized so it looks better in code, and can be used in other places
-    return`
-    <div id="card-${userNickname}" >
-        <!-- card -->
-        <div class="user-card active">
-            <div class="profile-img">
-              <img src="./images/user.png">
-            </div>
-            
-            <h6 class="text-center">${userNickname}</h6>
-            
-            <button class="btn" id="switch-btn-${userNickname}"><i class="fa-solid  ${isCurrent?'fa-toggle-on':'fa-toggle-off'}"></i></button>
-            <button class="btn" id="delete-btn-${userNickname}"><i class="fa fa-trash"></i></button>
-            <i class="fa fa-check" ${isCurrent?"":"hidden"}></i>
-        </div>
-    </div>
-    `
+  //todo make the popup generalized so it looks better in code, and can be used in other places
+  return`
+  <div id="card-${userNickname}" >
+      <!-- card -->
+      
+      <div class="user-card active" id="nick-${userNickname}">
+          <div class="profile-img">
+            <img src="./images/user.png">
+          </div>
+          
+          <h6 class="text-center">${userNickname}</h6>
+          
+          <button class="btn" id="switch-btn-${userNickname}"><i class="fa-solid  ${isCurrent?'fa-toggle-on':'fa-toggle-off'}"></i></button>
+          <button class="btn" id="delete-btn-${userNickname}"><i class="fa fa-trash"></i></button>
+          <i class="fa fa-check" ${isCurrent?"":"hidden"}></i>
+      </div>
+  </div>
+  `
 }
 
 function generate_yes_no_popup(description, no_text, yes_text) {

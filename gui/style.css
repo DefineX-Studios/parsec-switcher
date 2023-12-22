@@ -133,6 +133,7 @@ input{
 	align-items: center;
   justify-content: start;
 	flex-wrap: wrap;
+  user-select: none;
 }
 
 .user-card{
