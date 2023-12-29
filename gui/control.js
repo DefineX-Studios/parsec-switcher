@@ -17,13 +17,45 @@ const addAccountButton = document.getElementById('add-account-btn');
 window.addEventListener('unload', beforeQuit)
 window.addEventListener('DOMContentLoaded', main)
 
+const loadingMessage = document.getElementById('loading-message');
+const loadingOverlay = document.getElementById('loading-overlay');
+const showOverlay =false;
+
+function setLoadingOverlayVisibility(showOverlay) {
+  loadingOverlay.style.display = showOverlay ? 'flex' : 'none';
+}
+
+async function runWithLoading(toRun) {
+  try {
+    loadingOverlay.style.display = "flex";
+
+    // Wait for the asynchronous task to complete
+    await toRun();
+  } finally {
+    loadingOverlay.style.display = "none";
+  }
+}
+
+
+async function switchAcc(nickname) {
+  await runWithLoading(async () => {
+  logger.debug(`switching ${nickname}`)
+  const error = await PSS.switchAccount(nickname);
+  if (!error) return;
+  showToast("Error!", errorToMessage[error])
+});
+}
 
 async function addButtonPressed() {
+ 
+    await runWithLoading(async () => {
     const nickname = await showTextInputPopup("Enter Nickname", "Add Account");
     if (!nickname) return;
     const error = await PSS.addAccount(nickname);
     if (!error) return;
-    showToast("Error!", errorToMessage[error])
+    showToast("Error!", errorToMessage[error]);
+  });
+
 }
 function openLinkInDefaultBrowser() {
     shell.openExternal(' https://definex.in/discord');
@@ -45,12 +77,9 @@ function render() {
         accountsDiv.insertAdjacentHTML('beforeend', userCardString);
 
         // Deleting User Profile
-        document.getElementById(`switch-btn-${nickname}`).addEventListener('click', async function () {
-            logger.debug(`switching ${nickname}`)
-            const error = await PSS.switchAccount(nickname);
-            if (!error) return;
-            showToast("Error!", errorToMessage[error])
-        });
+        document.getElementById(`switch-btn-${nickname}`).addEventListener('click',()=>{
+            switchAcc(nickname);
+        }); 
 
         document.getElementById(`delete-btn-${nickname}`).addEventListener('click', async function () {
             const agreed = await showYesNoPopup(`Are you sure you want to delete ${nickname} account?`, "Cancel", "Delete Account");
@@ -64,7 +93,8 @@ function render() {
 }
 
 async function main() {
-
+ 
+   runWithLoading(async () => {
     const errorCode = await initialize();
     logger.debug("initializing")
     if (errorCode) showToast("Error!", errorToMessage[errorCode]);
@@ -74,7 +104,8 @@ async function main() {
     global_state.onConfigChanged.push(render);
     addAccountButton.addEventListener('click', addButtonPressed);
     render();
-}
+ });
+} 
 
 
 
