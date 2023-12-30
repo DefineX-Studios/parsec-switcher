@@ -36,19 +36,18 @@ async function runWithLoading(toRun) {
   }
 }
 
-
-async function switchAcc(nickname) {
+function switchAcc(nickname) {
   await runWithLoading(async () => {
-  logger.debug(`switching ${nickname}`)
-  const error = await PSS.switchAccount(nickname);
-  if (!error) return;
-  showToast("Error!", errorToMessage[error])
-});
+    logger.debug(`switching ${nickname}`)
+    const error = await PSS.switchAccount(nickname);
+    if (!error) return;
+    showToast("Error!", errorToMessage[error])
+  });
 }
 
-async function addButtonPressed() {
- 
-    await runWithLoading(async () => {
+function addButtonPressed() {
+
+  await runWithLoading(async () => {
     const nickname = await showTextInputPopup("Enter Nickname", "Add Account");
     if (!nickname) return;
     const error = await PSS.addAccount(nickname);
@@ -77,9 +76,8 @@ function render() {
         accountsDiv.insertAdjacentHTML('beforeend', userCardString);
 
         // Deleting User Profile
-        document.getElementById(`switch-btn-${nickname}`).addEventListener('click',()=>{
-            switchAcc(nickname);
-        }); 
+      document.getElementById(`switch-btn-${nickname}`).addEventListener('click', () => switchAcc(nickname));
+        
 
         document.getElementById(`delete-btn-${nickname}`).addEventListener('click', async function () {
             const agreed = await showYesNoPopup(`Are you sure you want to delete ${nickname} account?`, "Cancel", "Delete Account");
@@ -93,18 +91,18 @@ function render() {
 }
 
 async function main() {
- 
-   runWithLoading(async () => {
-    const errorCode = await initialize();
-    logger.debug("initializing")
-    if (errorCode) showToast("Error!", errorToMessage[errorCode]);
-    if (!global_state.flags.parsecDataLocationFound) showToast("Error!", errorToMessage[error.PARSEC_NOT_INSTALLED])
-    if (!global_state.flags.parsecdFound) showToast("Error!", error.PARSECD_NOT_IN_DEFAULT);
 
-    global_state.onConfigChanged.push(render);
-    addAccountButton.addEventListener('click', addButtonPressed);
-    render();
- });
+
+  const errorCode = await initialize();
+  logger.debug("initializing")
+  if (errorCode) showToast("Error!", errorToMessage[errorCode]);
+  if (!global_state.flags.parsecDataLocationFound) showToast("Error!", errorToMessage[error.PARSEC_NOT_INSTALLED])
+  if (!global_state.flags.parsecdFound) showToast("Error!", error.PARSECD_NOT_IN_DEFAULT);
+
+  global_state.onConfigChanged.push(render);
+  addAccountButton.addEventListener('click', addButtonPressed);
+  render();
+
 } 
 
 
