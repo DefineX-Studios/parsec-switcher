@@ -26,7 +26,7 @@ async function addButtonPressed() {
     showToast("Error!", errorToMessage[error])
 }
 function openLinkInDefaultBrowser() {
-    shell.openExternal(' https://definex.in/discord');
+    shell.openExternal('https://github.com/DefineX-Studios/parsec-account-switcher/wiki');
 }
 function render() {
     logger.debug("rendering");
