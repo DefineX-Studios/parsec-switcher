@@ -17,15 +17,8 @@ const addAccountButton = document.getElementById('add-account-btn');
 window.addEventListener('unload', beforeQuit)
 window.addEventListener('DOMContentLoaded', main)
 
-const loadingMessage = document.getElementById('loading-message');
-const loadingOverlay = document.getElementById('loading-overlay');
-const showOverlay =false;
-
-function setLoadingOverlayVisibility(showOverlay) {
-  loadingOverlay.style.display = showOverlay ? 'flex' : 'none';
-}
-
 async function runWithLoading(toRun) {
+  const loadingOverlay = document.getElementById('loading-overlay');
   try {
     loadingOverlay.style.display = "flex";
 
