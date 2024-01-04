@@ -17,7 +17,7 @@ const addAccountButton = document.getElementById('add-account-btn');
 window.addEventListener('unload', beforeQuit)
 window.addEventListener('DOMContentLoaded', main)
 
-function switchAcc(nickname) {
+function switchAccountHandler(nickname) {
   runWithLoading(async () => {
     logger.debug(`switching ${nickname}`)
     const error = await PSS.switchAccount(nickname);
@@ -37,9 +37,11 @@ function addButtonPressed() {
   });
 
 }
+
 function openLinkInDefaultBrowser() {
     shell.openExternal('https://github.com/DefineX-Studios/parsec-account-switcher/wiki');
 }
+
 function render() {
     logger.debug("rendering");
 
@@ -57,8 +59,8 @@ function render() {
         accountsDiv.insertAdjacentHTML('beforeend', userCardString);
 
         // Deleting User Profile
-        document.getElementById(`switch-btn-${nickname}`).addEventListener('click',()=>switchAcc(nickname));
-  
+        document.getElementById(`switch-btn-${nickname}`).addEventListener('click', ()=>switchAccountHandler(nickname));
+        document.getElementById(`nick-${nickname}`).addEventListener('dblclick', ()=>switchAccountHandler(nickname));
 
         document.getElementById(`delete-btn-${nickname}`).addEventListener('click', async function () {
             const agreed = await showYesNoPopup(`Are you sure you want to delete ${nickname} account?`, "Cancel", "Delete Account");

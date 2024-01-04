@@ -144,6 +144,7 @@ input{
   /* background-color:#0001; */
   background-color: rgba(255,255,255,0.30);
 	transition: all 0.6s ease-in-out;
+  user-select: none;
 }
 
 .profile-img{
