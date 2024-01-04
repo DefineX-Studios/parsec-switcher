@@ -2,6 +2,18 @@
 
 const templates = require("./template");
 
+async function runWithLoading(toRun) {
+    const loadingOverlay = document.getElementById('loading-overlay');
+    try {
+      loadingOverlay.style.display = "flex";
+  
+      // Wait for the asynchronous task to complete
+      await toRun();
+    } finally {
+      loadingOverlay.style.display = "none";
+    }
+  }
+  
 async function showYesNoPopup(description, negative_text, positive_text){
     // const id = shortUUID.generate().toString();
     const html = templates.generate_yes_no_popup(description, negative_text, positive_text);
