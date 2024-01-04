@@ -54,13 +54,10 @@ function render() {
         accountsDiv.insertAdjacentHTML('beforeend', userCardString);
 
         // Deleting User Profile
-        document.getElementById(`switch-btn-${nickname}`).addEventListener('click', ()=>{
-          switchAccountHandler(nickname);
-      }); 
+        document.getElementById(`switch-btn-${nickname}`).addEventListener('click', ()=>switchAccountHandler(nickname));
 
-      document.getElementById(`nick-${nickname}`).addEventListener('dblclick', ()=> {
-          switchAccountHandler(nickname);
-      });
+      document.getElementById(`nick-${nickname}`).addEventListener('dblclick', ()=>switchAccountHandler(nickname));
+      
 
         document.getElementById(`delete-btn-${nickname}`).addEventListener('click', async function () {
             const agreed = await showYesNoPopup(`Are you sure you want to delete ${nickname} account?`, "Cancel", "Delete Account");
