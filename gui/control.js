@@ -3,7 +3,7 @@ const templates = require("./template");
 const { global_state } = require("../lib/initialize");
 const { initialize } = require("../lib/initialize");
 const { errorToMessage, error } = require("../lib/error");
-const { showToast, showYesNoPopup, showTextInputPopup } = require("./elements");
+const { showToast, showYesNoPopup, showTextInputPopup,runWithLoading } = require("./elements");
 const { beforeQuit } = require("../lib/before-quit")
 const { logger } = require("../lib/logger");
 const { shell } = require('electron');
@@ -17,24 +17,29 @@ const addAccountButton = document.getElementById('add-account-btn');
 window.addEventListener('unload', beforeQuit)
 window.addEventListener('DOMContentLoaded', main)
 
-
-async function switchAccountHandler(nickname) {
-    logger.debug(`switching ${nickname}`);
+function switchAccountHandler(nickname) {
+  runWithLoading(async () => {
+    logger.debug(`switching ${nickname}`)
     const error = await PSS.switchAccount(nickname);
     if (!error) return;
-    showToast("Error!", errorToMessage[error]);
+    showToast("Error!", errorToMessage[error])
+  });
 }
 
-async function addButtonPressed() {
+function addButtonPressed() {
+
+  runWithLoading(async () => {
     const nickname = await showTextInputPopup("Enter Nickname", "Add Account");
     if (!nickname) return;
     const error = await PSS.addAccount(nickname);
     if (!error) return;
-    showToast("Error!", errorToMessage[error])
+    showToast("Error!", errorToMessage[error]);
+  });
+
 }
 
 function openLinkInDefaultBrowser() {
-    shell.openExternal(' https://definex.in/discord');
+    shell.openExternal('https://github.com/DefineX-Studios/parsec-account-switcher/wiki');
 }
 
 function render() {
@@ -55,9 +60,7 @@ function render() {
 
         // Deleting User Profile
         document.getElementById(`switch-btn-${nickname}`).addEventListener('click', ()=>switchAccountHandler(nickname));
-
-      document.getElementById(`nick-${nickname}`).addEventListener('dblclick', ()=>switchAccountHandler(nickname));
-      
+        document.getElementById(`nick-${nickname}`).addEventListener('dblclick', ()=>switchAccountHandler(nickname));
 
         document.getElementById(`delete-btn-${nickname}`).addEventListener('click', async function () {
             const agreed = await showYesNoPopup(`Are you sure you want to delete ${nickname} account?`, "Cancel", "Delete Account");
@@ -82,6 +85,5 @@ async function main() {
     addAccountButton.addEventListener('click', addButtonPressed);
     render();
 }
-
 
 
