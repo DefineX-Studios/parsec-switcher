@@ -3,7 +3,7 @@ const templates = require("./template");
 const { global_state } = require("../lib/initialize");
 const { initialize } = require("../lib/initialize");
 const { errorToMessage, error } = require("../lib/error");
-const { showToast, showYesNoPopup, showTextInputPopup } = require("./elements");
+const { showToast, showYesNoPopup, showTextInputPopup,runWithLoading } = require("./elements");
 const { beforeQuit } = require("../lib/before-quit")
 const { logger } = require("../lib/logger");
 const { shell } = require('electron');
@@ -17,8 +17,15 @@ const addAccountButton = document.getElementById('add-account-btn');
 window.addEventListener('unload', beforeQuit)
 window.addEventListener('DOMContentLoaded', main)
 
+const loadingMessage = document.getElementById('loading-message');
+const loadingOverlay = document.getElementById('loading-overlay');
+const showOverlay =false;
+
+function setLoadingOverlayVisibility(showOverlay) {
+  loadingOverlay.style.display = showOverlay ? 'flex' : 'none';
+}
+
 async function runWithLoading(toRun) {
-  const loadingOverlay = document.getElementById('loading-overlay');
   try {
     loadingOverlay.style.display = "flex";
 
