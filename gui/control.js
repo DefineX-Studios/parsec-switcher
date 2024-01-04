@@ -73,18 +73,15 @@ function render() {
 
 async function main() {
 
+    const errorCode = await initialize();
+    logger.debug("initializing")
+    if (errorCode) showToast("Error!", errorToMessage[errorCode]);
+    if (!global_state.flags.parsecDataLocationFound) showToast("Error!", errorToMessage[error.PARSEC_NOT_INSTALLED])
+    if (!global_state.flags.parsecdFound) showToast("Error!", error.PARSECD_NOT_IN_DEFAULT);
 
-  const errorCode = await initialize();
-  logger.debug("initializing")
-  if (errorCode) showToast("Error!", errorToMessage[errorCode]);
-  if (!global_state.flags.parsecDataLocationFound) showToast("Error!", errorToMessage[error.PARSEC_NOT_INSTALLED])
-  if (!global_state.flags.parsecdFound) showToast("Error!", error.PARSECD_NOT_IN_DEFAULT);
-
-  global_state.onConfigChanged.push(render);
-  addAccountButton.addEventListener('click', addButtonPressed);
-  render();
-
-} 
-
+    global_state.onConfigChanged.push(render);
+    addAccountButton.addEventListener('click', addButtonPressed);
+    render();
+}
 
 
