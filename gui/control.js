@@ -29,7 +29,7 @@ function switchAccountHandler(nickname) {
 function addButtonPressed() {
 
   runWithLoading(async () => {
-    const nickname = await showTextInputPopup("Enter Nickname", "Add Account");
+    const nickname = await showTextInputPopup("Enter the Nickname", "Add Account");
     if (!nickname) return;
     const error = await PSS.addAccount(nickname);
     if (!error) return;
@@ -48,17 +48,23 @@ function render() {
     accountsContainer.innerHTML = "";
     const accountsDiv = document.createElement('div');
     accountsDiv.classList.add('accounts-list');
+    accountsDiv.classList.add('row');
     accountsContainer.appendChild(accountsDiv);
 
     const state = PSS.returnAccountList();
     const {accounts, currentUser} = state;
 
     logger.debug(JSON.stringify(accounts));
+    let exec = require('child_process').exec;
+    exec('NET SESSION', function(err,so,se) {
+        document.getElementById("admin-priv").innerHTML = se.length === 0 ? `<span class='text-primary'>Admin</span>` : `<span class='text-secondary'>User</span>`;
+    });
     for (const nickname of accounts) {
         const userCardString = templates.generate_user_card(nickname, nickname === currentUser);
         accountsDiv.insertAdjacentHTML('beforeend', userCardString);
 
         // Deleting User Profile
+        document.getElementById(`nick-${nickname}`).addEventListener('click', ()=>switchAccountHandler(nickname));
         document.getElementById(`switch-btn-${nickname}`).addEventListener('click', ()=>switchAccountHandler(nickname));
         document.getElementById(`nick-${nickname}`).addEventListener('dblclick', ()=>switchAccountHandler(nickname));
 
@@ -70,6 +76,16 @@ function render() {
             if (!error) return;
             showToast("Error!", errorToMessage[error])
         });
+    }
+
+    const userPictures = document.querySelectorAll(".user-picture");
+    userPictures.forEach(function(picture) {
+        const username = picture.dataset.username;
+        picture.textContent = getInitials(username);
+    });
+
+    function getInitials(name) {
+        return name.split(" ").map(word => word[0]).join("").toUpperCase();
     }
 }
 
@@ -84,6 +100,7 @@ async function main() {
     global_state.onConfigChanged.push(render);
     addAccountButton.addEventListener('click', addButtonPressed);
     render();
+
 }
 
 
