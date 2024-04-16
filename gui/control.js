@@ -64,7 +64,6 @@ function render() {
         accountsDiv.insertAdjacentHTML('beforeend', userCardString);
 
         // Deleting User Profile
-        document.getElementById(`nick-${nickname}`).addEventListener('click', ()=>switchAccountHandler(nickname));
         document.getElementById(`switch-btn-${nickname}`).addEventListener('click', ()=>switchAccountHandler(nickname));
         document.getElementById(`nick-${nickname}`).addEventListener('dblclick', ()=>switchAccountHandler(nickname));
 
