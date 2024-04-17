@@ -403,3 +403,18 @@ h1 {
   transform: scale(1.05);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
+
+.alert-parsec-danger{
+  transition: transform 0.3s ease !important;
+  background-color: var(--primary-color) !important;
+  color: var(--simple-white) !important;
+  border-width: 3px !important;
+  border-color: var(--simple-white) !important;
+}
+.version {
+  font-family: "Lucida Console", "Courier New", monospace;
+  color: var(--secondary-color) !important;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}

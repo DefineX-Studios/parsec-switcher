@@ -7,6 +7,7 @@ const { showToast, showYesNoPopup, showTextInputPopup,runWithLoading } = require
 const { beforeQuit } = require("../lib/before-quit")
 const { logger } = require("../lib/logger");
 const { shell } = require('electron');
+const {exec} = require("child_process");
 
 
 
@@ -26,6 +27,27 @@ function switchAccountHandler(nickname) {
   });
 }
 
+function checkAdminAccess(){
+    let exec = require('child_process').exec;
+    exec('NET SESSION', function(err,so,se) {
+        let warning_user = `
+            <div class="alert alert-parsec-danger" role="alert">
+              <h4 class="alert-heading">Need Admin privilege!</h4>
+              <p>Parsec switcher needs admin access to work :(</p>
+              Please launch program with admin rights. 
+              <hr>
+              <p class="mb-0">Want to report bug ? Report it here: https://github.com/DefineX-Studios/parsec-account-switcher</p>
+            </div>`
+
+        document.getElementById("admin-priv").innerHTML = se.length === 0 ?  '' : warning_user;
+    });
+}
+
+function getParsecVersion(){
+    const fs = require('fs');
+    const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+    document.getElementById('parsec_version').innerHTML = packageJson.version;
+}
 function addButtonPressed() {
 
   runWithLoading(async () => {
@@ -44,7 +66,8 @@ function openLinkInDefaultBrowser() {
 
 function render() {
     logger.debug("rendering");
-
+    checkAdminAccess();
+    getParsecVersion();
     accountsContainer.innerHTML = "";
     const accountsDiv = document.createElement('div');
     accountsDiv.classList.add('accounts-list');
@@ -55,10 +78,6 @@ function render() {
     const {accounts, currentUser} = state;
 
     logger.debug(JSON.stringify(accounts));
-    let exec = require('child_process').exec;
-    exec('NET SESSION', function(err,so,se) {
-        document.getElementById("admin-priv").innerHTML = se.length === 0 ? `<span class='text-primary'>Admin</span>` : `<span class='text-secondary'>User</span>`;
-    });
     for (const nickname of accounts) {
         const userCardString = templates.generate_user_card(nickname, nickname === currentUser);
         accountsDiv.insertAdjacentHTML('beforeend', userCardString);
