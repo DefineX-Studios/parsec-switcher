@@ -116,7 +116,16 @@ async function main() {
     if (!global_state.flags.parsecdFound) showToast("Error!", error.PARSECD_NOT_IN_DEFAULT);
 
     global_state.onConfigChanged.push(render);
-    addAccountButton.addEventListener('click', addButtonPressed);
+    document.getElementById(`add-account-btn`).addEventListener('click', async function () {
+        const nickname = await showTextInputPopup("Enter the Nickname", "Add Account");
+        if (!nickname) {
+            showToast("Error!", "Enter a Valid name");
+            return;
+        }
+        const error = await PSS.addAccount(nickname);
+        if (!error) return;
+        showToast("Error!", errorToMessage[error])
+    });
     render();
 
 }
