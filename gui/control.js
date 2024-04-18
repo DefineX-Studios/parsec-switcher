@@ -37,7 +37,7 @@ function checkAdminAccess(){
 function getParsecVersion(){
     const fs = require('fs');
     const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
-    document.getElementById('parsec_version').innerHTML = packageJson.version;
+    document.getElementById('parsec_version').innerHTML = "v" + packageJson.version;
 }
 
 // Directly called in index.html
