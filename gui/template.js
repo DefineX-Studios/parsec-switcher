@@ -1,8 +1,10 @@
+const {getInitials} = require("./utils");
+
 function generate_user_card(userNickname, isCurrent){
     //todo make the popup generalized so it looks better in code, and can be used in other places
     return`
 <div class="card card text-center user-card p-4 ${isCurrent?'active-account':''}" id="nick-${userNickname}" style="width: 18rem;">
-    <div class="user-picture" data-username=${userNickname}></div>  
+    <div class="user-picture" data-username=${userNickname}>${getInitials(userNickname)}</div>  
     <div class="card-body m-4">
         <h5 class="card-title text-white">${userNickname}</h5>
         <i class="fa fa-check" ${isCurrent?"":"hidden"}></i>

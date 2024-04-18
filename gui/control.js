@@ -30,16 +30,7 @@ function switchAccountHandler(nickname) {
 function checkAdminAccess(){
     let exec = require('child_process').exec;
     exec('NET SESSION', function(err,so,se) {
-        let warning_user = `
-            <div class="alert alert-parsec-danger" role="alert">
-              <h4 class="alert-heading">Need Admin privilege!</h4>
-              <p>Parsec switcher needs admin access to work :(</p>
-              Please launch program with admin rights. 
-              <hr>
-              <p class="mb-0">Want to report bug ? Report it here: https://github.com/DefineX-Studios/parsec-account-switcher</p>
-            </div>`
-
-        document.getElementById("admin-priv").innerHTML = se.length === 0 ?  '' : warning_user;
+        document.getElementById("admin-priv").style.display = se.length === 0 ? "none" : "block";
     });
 }
 
@@ -48,18 +39,8 @@ function getParsecVersion(){
     const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
     document.getElementById('parsec_version').innerHTML = packageJson.version;
 }
-function addButtonPressed() {
 
-  runWithLoading(async () => {
-    const nickname = await showTextInputPopup("Enter the Nickname", "Add Account");
-    if (!nickname) return;
-    const error = await PSS.addAccount(nickname);
-    if (!error) return;
-    showToast("Error!", errorToMessage[error]);
-  });
-
-}
-
+// Directly called in index.html
 function openLinkInDefaultBrowser() {
     shell.openExternal('https://github.com/DefineX-Studios/parsec-account-switcher/wiki');
 }
@@ -95,16 +76,6 @@ function render() {
             showToast("Error!", errorToMessage[error])
         });
     }
-
-    const userPictures = document.querySelectorAll(".user-picture");
-    userPictures.forEach(function(picture) {
-        const username = picture.dataset.username;
-        picture.textContent = getInitials(username);
-    });
-
-    function getInitials(name) {
-        return name.split(" ").map(word => word[0]).join("").toUpperCase();
-    }
 }
 
 async function main() {
@@ -122,9 +93,11 @@ async function main() {
             showToast("Error!", "Enter a Valid name");
             return;
         }
-        const error = await PSS.addAccount(nickname);
-        if (!error) return;
-        showToast("Error!", errorToMessage[error])
+        await runWithLoading(async () => {
+            const error = await PSS.addAccount(nickname);
+            if (!error) return;
+            showToast("Error!", errorToMessage[error]);
+        });
     });
     render();
 
