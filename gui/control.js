@@ -10,7 +10,6 @@ const { shell } = require('electron');
 const {exec} = require("child_process");
 
 
-
 const accountsContainer = document.getElementById('accounts-container');
 const addAccountButton = document.getElementById('add-account-btn');
 
@@ -35,9 +34,8 @@ function checkAdminAccess(){
 }
 
 function getParsecVersion(){
-    const fs = require('fs');
-    const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
-    document.getElementById('parsec_version').innerHTML = "v" + packageJson.version;
+    const packageVals = require('../package.json')
+    document.getElementById('parsec_version').innerHTML = "v" + packageVals.version;
 }
 
 // Directly called in index.html
