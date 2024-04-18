@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 body{
-  background-image: url(images/img1.avif);
+  background-color: var(--background-color) !important;
   background-position: center;
   background-size: cover;
 }
@@ -14,13 +14,15 @@ body{
 :root {
   --primary-color: #f50049;
   --secondary-color :#25abff;
+  --foreground-color: #212224;
+  --background-color: #29292a;
+  --simple-white: #ffffff;
   --primary-font:'Rubik', sans-serif;
 }
 
 .main-btn {
   display: inline-block;
   color: white;
-  /* background-color:var(--primary-color); */
   background-color: var(--secondary-color);
   border: none;
   cursor: pointer;
@@ -30,24 +32,28 @@ body{
   padding: 9.5px 11px;
   line-height: 1.6;
   margin: auto;
+  float: right;
   border-radius: 5.4rem;
 }
+
 .main-btn:hover {
   background-color: white;
   color: black;
 }
+
+.container-fluid {
+  background-color: var(--foreground-color) !important;
+  color: var(--simple-white) !important;
+}
 .mynav {
   position: fixed;
-  background-color: var(--secondary-color);
-  height: 7vh;
-  text-transform: uppercase;
-  /* text-transform: capitalize; */
+  background-color: var(--foreground-color);
+  height: auto;
 }
 .mynav h6{
-color: black;
-font-weight: 550;
-font-family: var(--primary-font);
-padding-top: 5px;
+  font-weight: 550;
+  font-family: var(--primary-font);
+  padding-top: 5px;
 }
 
 .content{
@@ -58,9 +64,16 @@ padding-top: 5px;
   position: absolute;
   top: 34%;
   left: 50%;
-  transform: translate(-50%,-50%); 
+  transform: translate(-50%,-50%);
 }
 
+.card-block {
+  background-color: var(--foreground-color);
+  width: auto;
+  padding: 50px;
+  border-radius: 30px;
+  margin-top: 30%;
+}
 .content h1{
   color: white;
   font-family: 'Comic Neue', cursive;
@@ -70,23 +83,34 @@ padding-top: 5px;
   margin-bottom: 10px;
 }
 
-.content p {
-  color: white;
+.heading {
+  color: var(--primary-color);
+  padding-left: 20px;
+}
+
+.subheading{
+  color: var(--simple-white);
+  padding: 2px;
+  margin-top: -15px;
+}
+.card-block p {
+  color: var(--simple-white) !important;
   font-size: 17px;
   font-family: var(--primary-font);
-  text-align: center;
+  text-align: left;
 }
 
 /* Modal CSS  */
 .popup{
-  color: black;
+  color: var(--simple-white);
   max-width: 100%;
   height: 25vh;
 }
 .modal-body {
   padding: 0;
-  background-color: black;
+  background-color: var(--background-color);
 }
+
 .btn-close {
   position: absolute;
   right: 0;
@@ -120,30 +144,22 @@ input{
 }
 /* User Profile Card CSS  */
 .accounts-container{
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
   justify-content: start;
 }
 .accounts-list {
-  margin-top: 10px;
-	padding: 20px;
-	display: flex;
-  position: absolute;
-  top: 50%;
-	align-items: center;
-  justify-content: start;
-	flex-wrap: wrap;
 }
 
 .user-card{
   position: relative;
-	width: 200px;
+  width: 200px;
   height: 200px;
-	margin: 15px;
+  margin: 15px;
   border-radius: 20px;
   /* background-color:#0001; */
   background-color: rgba(255,255,255,0.30);
-	transition: all 0.6s ease-in-out;
+  transition: all 0.6s ease-in-out;
   user-select: none;
 }
 
@@ -157,18 +173,18 @@ input{
   border: 2px solid white;
   border-radius: 50%;
   height: 100px;
-} 
+}
 
 .user-card h6 {
   margin: 0;
   color: white;
-	font-size: 20px;
+  font-size: 20px;
 }
 .user-card .btn{
   color: white;
   font-size: 25px;
- margin-left: 30px;
- margin-top: 0;
+  margin-left: 30px;
+  margin-top: 0;
 }
 .user-card .fa-check {
   position: absolute;
@@ -197,8 +213,8 @@ input{
 .help-button{
   color:white;
   position: fixed;
-    bottom: 10px;
-    right: 10px;
+  bottom: 10px;
+  right: 10px;
 }
 
 #loading-overlay {
@@ -226,7 +242,7 @@ input{
   font-size:200%;
   align-items: center;
   opacity: 100%;
-  
+
 }
 .fa-spinner {
   animation: spin 1s infinite linear;
@@ -239,4 +255,166 @@ input{
   to {
     transform: rotate(360deg);
   }
+}
+
+h1 {
+  background: linear-gradient(
+          to right,
+          var(--primary-color) 20%,
+          var(--secondary-color) 30%,
+          var(--primary-color) 70%,
+          var(--secondary-color) 80%
+  );
+  font-size: 60px !important;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  background-size: 500% auto;
+  animation: textShine 5s ease-in-out infinite alternate;
+}
+
+@keyframes textShine {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.spacer{
+  margin-bottom: 45px;
+}
+
+.card {
+  background-color: var(--foreground-color) !important;
+  border:solid var(--foreground-color) !important;
+}
+.card-header {
+  background-color: var(--background-color) !important;
+  border:none!important;
+}
+.card-body{
+  background-color: var(--foreground-color) !important;
+  border-radius: 45px !important;
+}
+.card-footer {
+  background-color: var(--background-color) !important;
+}
+.user-card {
+  border-style: solid !important;
+  border-color: var(--background-color) !important;
+}
+.text-primary {
+  color: var(--primary-color)
+}
+.text-secondary {
+  color: var(--secondary-color)
+}
+
+/* Dark mode styles for Bootstrap Toast */
+.toast {
+  background-color: var(--foreground-color) !important;
+  color: var(--simple-white) !important;
+}
+
+.toast-header {
+  background-color: var(--foreground-color) !important;
+  color: var(--simple-white) !important;
+}
+
+.toast-body {
+  background-color: var(--foreground-color) !important;
+  color: var(--simple-white) !important;
+}
+
+/* Dark mode styles for Bootstrap Modal */
+.modal-content {
+  background-color: var(--foreground-color) !important;
+  color: var(--simple-white) !important;
+}
+
+.modal-header {
+  background-color: var(--foreground-color) !important;
+  color: var(--simple-white) !important;
+  border-bottom: 1px solid var(--simple-white) !important; /* Optional: Add border bottom */
+}
+
+.modal-title {
+  color: var(--simple-white) !important;
+}
+
+.modal-body {
+  background-color: var(--foreground-color) !important;
+  color: var(--simple-white) !important;
+}
+
+.modal-footer {
+  background-color: var(--foreground-color) !important;
+  color: var(--simple-white) !important;
+  border-top: 1px solid var(--simple-white) !important; /* Optional: Add border top */
+}
+
+.btn-close {
+  color: var(--simple-white) !important;
+}
+
+.btn-close:hover {
+  color: var(--simple-white) !important;
+  opacity: 0.75; /* Optional: Reduce opacity on hover */
+}
+
+.form-control {
+  background-color: var(--background-color) !important;
+  color: var(--simple-white) !important;
+  border-radius: 25px;
+}
+.active-account {
+  background-color: var(--primary-color) !important;
+  border-color: var(--simple-white) !important;
+}
+
+.user-picture {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  border: 5px solid;
+  border-color: var(--simple-white) !important;
+  color: var(--simple-white);
+  font-size: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+.text-muted-p{
+  color: #d7d7d7;
+}
+
+.user-card {
+
+  border: 2px solid #ccc;
+  padding: 20px;
+  transition: transform 0.3s ease;
+}
+
+.user-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.alert-parsec-danger{
+  transition: transform 0.3s ease !important;
+  background-color: var(--primary-color) !important;
+  color: var(--simple-white) !important;
+  border-width: 3px !important;
+  border-color: var(--simple-white) !important;
+}
+.version {
+  font-family: "Lucida Console", "Courier New", monospace;
+  color: var(--secondary-color) !important;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }

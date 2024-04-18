@@ -7,6 +7,7 @@ const { showToast, showYesNoPopup, showTextInputPopup,runWithLoading } = require
 const { beforeQuit } = require("../lib/before-quit")
 const { logger } = require("../lib/logger");
 const { shell } = require('electron');
+const {exec} = require("child_process");
 
 
 
@@ -26,28 +27,32 @@ function switchAccountHandler(nickname) {
   });
 }
 
-function addButtonPressed() {
-
-  runWithLoading(async () => {
-    const nickname = await showTextInputPopup("Enter Nickname", "Add Account");
-    if (!nickname) return;
-    const error = await PSS.addAccount(nickname);
-    if (!error) return;
-    showToast("Error!", errorToMessage[error]);
-  });
-
+function checkAdminAccess(){
+    let exec = require('child_process').exec;
+    exec('NET SESSION', function(err,so,se) {
+        document.getElementById("admin-priv").style.display = se.length === 0 ? "none" : "block";
+    });
 }
 
+function getParsecVersion(){
+    const fs = require('fs');
+    const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+    document.getElementById('parsec_version').innerHTML = "v" + packageJson.version;
+}
+
+// Directly called in index.html
 function openLinkInDefaultBrowser() {
     shell.openExternal('https://github.com/DefineX-Studios/parsec-account-switcher/wiki');
 }
 
 function render() {
     logger.debug("rendering");
-
+    checkAdminAccess();
+    getParsecVersion();
     accountsContainer.innerHTML = "";
     const accountsDiv = document.createElement('div');
     accountsDiv.classList.add('accounts-list');
+    accountsDiv.classList.add('row');
     accountsContainer.appendChild(accountsDiv);
 
     const state = PSS.returnAccountList();
@@ -82,8 +87,20 @@ async function main() {
     if (!global_state.flags.parsecdFound) showToast("Error!", error.PARSECD_NOT_IN_DEFAULT);
 
     global_state.onConfigChanged.push(render);
-    addAccountButton.addEventListener('click', addButtonPressed);
+    document.getElementById(`add-account-btn`).addEventListener('click', async function () {
+        const nickname = await showTextInputPopup("Enter the Nickname", "Add Account");
+        if (!nickname) {
+            showToast("Error!", "Enter a Valid name");
+            return;
+        }
+        await runWithLoading(async () => {
+            const error = await PSS.addAccount(nickname);
+            if (!error) return;
+            showToast("Error!", errorToMessage[error]);
+        });
+    });
     render();
+
 }
 
 
